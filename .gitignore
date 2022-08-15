@@ -1,0 +1,16 @@
+# .gitignore by e@sy Solutions IT
+# ===============================
+# author      pfroch <info@easySolutionsIT.de>
+# link        http://easySolutionsIT.de
+# copyright   e@sy Solutions IT 2022
+# license     LGPL
+# filesource  .gitignore
+# since       05.07.2022 - 16:54
+
+*.cache
+autoload*
+vendor/
+**/**/*.example
+Classes/Contao/
+Classes/Contao/*
+Classes/Contao/**

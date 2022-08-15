@@ -1,0 +1,13 @@
+# Services
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    Esit\Valueobjects\Classes\Money\Services\Calculator\MoneyCalculator:
+
+    Esit\Valueobjects\Classes\Money\Services\Converter\MoneyConverter:
+
+    Esit\Valueobjects\Classes\Money\Services\Factories\MoneyFactory:
+
+    Esit\Valueobjects\Classes\Money\Services\Validators\MoneyValidator:

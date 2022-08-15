@@ -1,0 +1,9 @@
+# Services
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    Esit\Valueobjects\Classes\Email\Services\Factories\EmailFactory:
+
+    Esit\Valueobjects\Classes\Email\Services\Validators\EmailValidator:

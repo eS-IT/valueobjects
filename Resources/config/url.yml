@@ -1,0 +1,9 @@
+# Services
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    Esit\Valueobjects\Classes\Url\Services\Factories\UrlFactory:
+
+    Esit\Valueobjects\Classes\Url\Services\Validators\UrlValidator:
