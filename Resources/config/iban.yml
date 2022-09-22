@@ -1,0 +1,11 @@
+# Services
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    Esit\Valueobjects\Classes\Iban\Services\Converter\IbanConverter:
+
+    Esit\Valueobjects\Classes\Iban\Services\Factories\IbanFactory:
+
+    Esit\Valueobjects\Classes\Iban\Services\Validators\IbanValidator:
