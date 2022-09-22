@@ -23,7 +23,7 @@ class IbanConverterTest extends TestCase
 
     public function testConvertToFormatedReturnStringWithoutSpaces(): void
     {
-        $iban       = 'DE12 3456 7890 1234 5678 90';
+        $iban       = 'DE79 3456 7890 1234 5678 90';
         $expected   = \str_replace(' ', '', $iban);
         $converter  = new IbanConverter();
         self::assertSame($expected, $converter->convertToIban($iban));
@@ -32,8 +32,8 @@ class IbanConverterTest extends TestCase
 
     public function testConvertToIban(): void
     {
-        $iban       = 'DE12345678901234567890';
-        $expected   = 'DE12 3456 7890 1234 5678 90';
+        $iban       = 'DE79345678901234567890';
+        $expected   = 'DE79 3456 7890 1234 5678 90';
         $converter  = new IbanConverter();
         self::assertSame($expected, $converter->convertToFormated($iban));
     }

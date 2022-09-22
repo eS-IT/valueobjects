@@ -33,12 +33,6 @@ class IbanValueTest extends TestCase
     private $validator;
 
 
-    /**
-     * @var IbanValue
-     */
-    private IbanValue $value;
-
-
     protected function setUp(): void
     {
         $this->converter = $this->getMockBuilder(IbanConverter::class)
@@ -51,10 +45,18 @@ class IbanValueTest extends TestCase
     }
 
 
+    public function testFromStringThrowExceptionIfIbanIsEmpty(): void
+    {
+        $this->expectException(NotAValidIbanException::class);
+        $this->expectExceptionMessage('iban could not be empty');
+        IbanValue::fromString('', $this->converter, $this->validator);
+    }
+
+
     public function testFromStringThrowExceptionIfIbanIsNotValid(): void
     {
-        $iban   = 'DE12 3456 7890 1234 5678 90';
-        $clean  = 'DE12345678901234567890';
+        $iban   = 'DE79 3456 7890 1234 5678 90';
+        $clean  = 'DE79345678901234567890';
 
         $this->converter->expects(self::once())
                         ->method('convertToIban')
@@ -67,12 +69,12 @@ class IbanValueTest extends TestCase
                         ->willReturn(false);
 
         $this->expectException(NotAValidIbanException::class);
-        $this->expectExceptionMessage('string is no valid Iban');
+        $this->expectExceptionMessage('string is no valid iban');
         IbanValue::fromString($iban, $this->converter, $this->validator);
     }
 
 
-    public function testFromStringReturnValueObjectIfIbanIsNotValid(): void
+    public function testFromStringThrowExceptionIfChecksumIsNotValid(): void
     {
         $iban   = 'DE12 3456 7890 1234 5678 90';
         $clean  = 'DE12345678901234567890';
@@ -87,14 +89,21 @@ class IbanValueTest extends TestCase
                         ->with($clean)
                         ->willReturn(true);
 
-        self::assertNotNull(IbanValue::fromString($iban, $this->converter, $this->validator));
+        $this->validator->expects(self::once())
+                        ->method('isValidChecksum')
+                        ->with($clean)
+                        ->willReturn(false);
+
+        $this->expectException(NotAValidIbanException::class);
+        $this->expectExceptionMessage('checksum is not valid');
+        IbanValue::fromString($iban, $this->converter, $this->validator);
     }
 
 
-    public function testValueReturnIbanWithoutSpaces(): void
+    public function testFromStringReturnValueObjectIfIbanIsValid(): void
     {
-        $iban   = 'DE12 3456 7890 1234 5678 90';
-        $clean  = 'DE12345678901234567890';
+        $iban   = 'DE79 3456 7890 1234 5678 90';
+        $clean  = 'DE79345678901234567890';
 
         $this->converter->expects(self::once())
                         ->method('convertToIban')
@@ -103,6 +112,35 @@ class IbanValueTest extends TestCase
 
         $this->validator->expects(self::once())
                         ->method('isValid')
+                        ->with($clean)
+                        ->willReturn(true);
+
+        $this->validator->expects(self::once())
+                        ->method('isValidChecksum')
+                        ->with($clean)
+                        ->willReturn(true);
+
+        self::assertNotNull(IbanValue::fromString($iban, $this->converter, $this->validator));
+    }
+
+
+    public function testValueReturnIbanWithoutSpaces(): void
+    {
+        $iban   = 'DE79 3456 7890 1234 5678 90';
+        $clean  = 'DE79345678901234567890';
+
+        $this->converter->expects(self::once())
+                        ->method('convertToIban')
+                        ->with($iban)
+                        ->willReturn($clean);
+
+        $this->validator->expects(self::once())
+                        ->method('isValid')
+                        ->with($clean)
+                        ->willReturn(true);
+
+        $this->validator->expects(self::once())
+                        ->method('isValidChecksum')
                         ->with($clean)
                         ->willReturn(true);
 
@@ -113,8 +151,8 @@ class IbanValueTest extends TestCase
 
     public function test__toStringIbanWithoutSpaces(): void
     {
-        $iban   = 'DE12 3456 7890 1234 5678 90';
-        $clean  = 'DE12345678901234567890';
+        $iban   = 'DE79 3456 7890 1234 5678 90';
+        $clean  = 'DE79345678901234567890';
 
         $this->converter->expects(self::once())
                         ->method('convertToIban')
@@ -126,6 +164,11 @@ class IbanValueTest extends TestCase
                         ->with($clean)
                         ->willReturn(true);
 
+        $this->validator->expects(self::once())
+                        ->method('isValidChecksum')
+                        ->with($clean)
+                        ->willReturn(true);
+
         $value = IbanValue::fromString($iban, $this->converter, $this->validator);
         self::assertSame($clean, (string)$value);
     }
@@ -133,8 +176,8 @@ class IbanValueTest extends TestCase
 
     public function testGetFormatedValueReturnIbanWithSpaces(): void
     {
-        $iban   = 'DE12 3456 7890 1234 5678 90';
-        $clean  = 'DE12345678901234567890';
+        $iban   = 'DE79 3456 7890 1234 5678 90';
+        $clean  = 'DE79345678901234567890';
 
         $this->converter->expects(self::once())
                         ->method('convertToIban')
@@ -148,6 +191,11 @@ class IbanValueTest extends TestCase
 
         $this->validator->expects(self::once())
                         ->method('isValid')
+                        ->with($clean)
+                        ->willReturn(true);
+
+        $this->validator->expects(self::once())
+                        ->method('isValidChecksum')
                         ->with($clean)
                         ->willReturn(true);
 

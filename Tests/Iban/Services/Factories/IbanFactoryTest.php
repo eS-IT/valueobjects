@@ -58,7 +58,7 @@ class IbanFactoryTest extends TestCase
 
     public function testCreateFromString(): void
     {
-        $iban = 'DE12345678901234567890';
+        $iban = 'DE79345678901234567890';
 
         $this->converter->expects(self::once())
                         ->method('convertToIban')
@@ -67,6 +67,11 @@ class IbanFactoryTest extends TestCase
 
         $this->validator->expects(self::once())
                         ->method('isValid')
+                        ->with($iban)
+                        ->willReturn(true);
+
+        $this->validator->expects(self::once())
+                        ->method('isValidChecksum')
                         ->with($iban)
                         ->willReturn(true);
 

@@ -50,10 +50,18 @@ class IbanValue implements \Stringable
      */
     public static function fromString(string $value, IbanConverter $converter, IbanValidator $validator): self
     {
+        if ('' === $value) {
+            throw new NotAValidIbanException('iban could not be empty');
+        }
+
         $value = $converter->convertToIban($value);
 
         if (!$validator->isValid($value)) {
-            throw new NotAValidIbanException('string is no valid Iban');
+            throw new NotAValidIbanException('string is no valid iban');
+        }
+
+        if (!$validator->isValidChecksum($value)) {
+            throw new NotAValidIbanException('checksum is not valid');
         }
 
         return new self($value, $converter);

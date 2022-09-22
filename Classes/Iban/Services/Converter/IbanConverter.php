@@ -16,8 +16,6 @@ namespace Esit\Valueobjects\Classes\Iban\Services\Converter;
 
 class IbanConverter
 {
-
-
     /**
      * Entfernt evtl. vorhandene Leerzeichen.
      * @param string $value

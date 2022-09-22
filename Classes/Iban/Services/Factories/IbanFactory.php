@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 /**
  * @package     valueobjects
  * @version     1.0.0
@@ -9,6 +9,9 @@ declare(strict_types=1);
  * @copyright   e@sy Solutions IT 2022
  * @license     EULA
  */
+
+declare(strict_types=1);
+
 namespace Esit\Valueobjects\Classes\Iban\Services\Factories;
 
 use Esit\Valueobjects\Classes\Iban\Services\Converter\IbanConverter;
@@ -17,8 +20,6 @@ use Esit\Valueobjects\Classes\Iban\Valueobjects\IbanValue;
 
 class IbanFactory
 {
-
-
     /**
      * @var IbanConverter
      */

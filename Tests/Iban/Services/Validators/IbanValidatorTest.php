@@ -10,6 +10,7 @@
  */
 namespace Esit\Valueobjects\Tests\Iban\Services\Validators;
 
+use Esit\Valueobjects\Classes\Iban\Exceptions\NotAValidIbanException;
 use Esit\Valueobjects\Classes\Iban\Services\Validators\IbanValidator;
 use PHPUnit\Framework\TestCase;
 
@@ -27,13 +28,13 @@ class IbanValidatorTest extends TestCase
 
     public function testIsValidReturnTrueIfIbanIsValidWithoutSpaces(): void
     {
-        self::assertTrue($this->validator->isValid('DE12345678901234567890'));
+        self::assertTrue($this->validator->isValid('DE79345678901234567890'));
     }
 
 
     public function testIsValidReturnFalseIfIbanHasSpaces(): void
     {
-        self::assertFalse($this->validator->isValid('DE12 3456 7890 1234 5678 90'));
+        self::assertFalse($this->validator->isValid('DE79 3456 7890 1234 5678 90'));
     }
 
 
@@ -46,5 +47,45 @@ class IbanValidatorTest extends TestCase
     public function testIsValidReturnFalseIfIbanHasNoNumbers(): void
     {
         self::assertFalse($this->validator->isValid('testTESTtestTETStestTEST'));
+    }
+
+
+    public function testIsValidChecksumReturnTrueIfChecksumIsValid(): void
+    {
+        self::assertTrue($this->validator->isValidChecksum('DE79345678901234567890'));
+    }
+
+
+    public function testIsValidChecksumReturnFalseIfChecksumIsNotValid(): void
+    {
+        self::assertFalse($this->validator->isValidChecksum('DE12345678901234567890'));
+    }
+
+
+    public function testGetChecksumReturnCecksum(): void
+    {
+        self::assertSame(79, $this->validator->getChecksum('DE79345678901234567890'));
+    }
+
+
+    public function testGetCountryCodeReturnInteger(): void
+    {
+        self::assertSame(1314, $this->validator->getCountryCode('DE79345678901234567890'));
+    }
+
+
+    public function testGetCountryCodeThrowExceptionIfThereIsNoLanguageCode(): void
+    {
+        $this->expectException(NotAValidIbanException::class);
+        $this->expectExceptionMessage('there are no contry code');
+        $this->validator->getCountryCode('79345678901234567890');
+    }
+
+
+    public function testGetCountryCodeThrowExceptionIfThereIsNoValidLanguageCode(): void
+    {
+        $this->expectException(NotAValidIbanException::class);
+        $this->expectExceptionMessage('there are no contry code');
+        $this->validator->getCountryCode('E79345678901234567890');
     }
 }

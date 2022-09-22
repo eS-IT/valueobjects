@@ -13,10 +13,12 @@ declare(strict_types=1);
 
 namespace Esit\Valueobjects\Classes\Iban\Services\Validators;
 
+use Esit\Valueobjects\Classes\Iban\Exceptions\NotAValidIbanException;
+
 class IbanValidator
 {
     /**
-     * Regulärer Ausdruck für die IP-Adresse.
+     * Regulärer Ausdruck für die IBAN-Adresse.
      *
      * @see https://www.regextester.com/115565
      */
@@ -29,11 +31,60 @@ class IbanValidator
 
 
     /**
+     * Prüft, ob die IBAN valide ist.
      * @param  string $value
      * @return bool
      */
     public function isValid(string $value): bool
     {
         return 1 === \preg_match(self::RGXP_IP, $value);
+    }
+
+
+    /**
+     * Prüft, ob die Prüfsumme korrekt ist.
+     * @param string $value
+     * @return bool
+     */
+    public function isValidChecksum(string $value): bool
+    {
+        $number = \substr($value, 4);
+        $number .= $this->getCountryCode($value) . '00';
+        $rest   = \bcmod($number, '97');
+        $rest   = 98 - (int)$rest;
+
+        return $rest === $this->getChecksum($value);
+    }
+
+
+    /**
+     * Gibt die Prüfsumme der IBAN zurück.
+     * @param string $value
+     * @return int
+     */
+    public function getChecksum(string $value): int
+    {
+        return (int)\substr($value, 2, 2);
+    }
+
+
+    /**
+     * Gibt den Ländercode zurück.
+     * Der Ländercode entspricht der Position des Buchstabens im Aphabet,
+     * wobei A bei 10 startet, B ist dann 11, C ist 12, usw.
+     * @param string $value
+     * @return int
+     */
+    public function getCountryCode(string $value): int
+    {
+        if (\ord($value[0]) < 65 || \ord($value[0]) > 90 || \ord($value[1]) < 65 || \ord($value[1]) > 90) {
+            throw new NotAValidIbanException('there are no contry code');
+        }
+
+        // A=10, B=11, ... | ASCII-Code A=65, B=66, ... | Deshalb - 55!
+        $code = \ord($value[0]) - 55;
+        $code .= \ord($value[1]) - 55;
+
+        return (int)$code;
     }
 }
