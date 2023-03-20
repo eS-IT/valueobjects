@@ -5,7 +5,7 @@ runtests_cto4.13_php8.1:
     stage: test
     except:
         - tags
-    image: esit-projekt.de:5000/testsuite_cto4.13_php8.1
+    image: esit-projekt.de:5000/testsuite_cto4.13_php8.1:1.0.0
     variables:
         GIT_STRATEGY: none
         PROJECT_NAME: valueobjects
