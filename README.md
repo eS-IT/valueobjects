@@ -23,8 +23,8 @@ __e@sy Solutions IT:__ Patrick Froch <info@easySolutionsIT.de>
 
 ## Voraussetzungen
 
-- php: ^8.0
-- symfony/symfony:~5.0
+- php: ~8.0
+- contao/contao: ~4.13||~5.1
 
 
 ## Installation
@@ -41,6 +41,7 @@ composer require esit/valueobjects
 Die Verwendung der einzelnen Wertobjekte wird im jeweiligen Ordner unter `Classes` beschrieben:
 
 - [`Classes/Email`](Classes/Email/README.md)
+- [`Classes/Iban`](Classes/Iban/README.md)
 - [`Classes/Ip`](Classes/Ip/README.md)
 - [`Classes/Isbn`](Classes/Isbn/README.md)
 - [`Classes/Money`](Classes/Money/README.md)
