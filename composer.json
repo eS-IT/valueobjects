@@ -1,7 +1,7 @@
 {
     "name": "esit/valueobjects",
     "description": "Bei diesem Paket handelt es sich um eine Sammlung an Wertobjekten. Mit den Wertobjekten kann primitiven Datentypen eine Bedeutung verliehen werden. Es kann so sichergestellt werden, dass es sich z.B. bei einem String um einen Geldbetrag, eine E-Mail-Adresse, IBAN, ISBN, ... handelt.",
-    "license": "LGPL",
+    "license": "LGPL-3.0-or-later",
     "type": "library",
     "authors": [
         {
