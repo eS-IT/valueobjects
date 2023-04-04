@@ -43,10 +43,11 @@ class IbanValue implements \Stringable
 
 
     /**
+     * Erzeugt aus einem String ein IbanValue-Objekt.
      * @param string        $value
-     * @param IbanValidator $validator
      * @param IbanConverter $converter
-     * @return static
+     * @param IbanValidator $validator
+     * @return self
      */
     public static function fromString(string $value, IbanConverter $converter, IbanValidator $validator): self
     {

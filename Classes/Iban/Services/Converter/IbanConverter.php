@@ -30,10 +30,10 @@ class IbanConverter
     /**
      * Gibt einen formatierten Wert zurück, bei dem in der Iban nach dem Bankcode,
      * die Zahlen in vierer Gruppen unterteilt sind.
-     * @param $value
+     * @param string $value
      * @return string
      */
-    public function convertToFormated($value): string
+    public function convertToFormated(string $value): string
     {
         $temp = '';
 

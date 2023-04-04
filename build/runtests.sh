@@ -158,6 +158,32 @@ else
 fi
 
 
+## PHPStan
+if [ -f ${toolFolder}/phpcpd ]
+then
+    myecho "Prüfe Code-Qualität mit PHPStan"
+
+    if [ "${VERBOSE}" == "TRUE" ]
+    then
+        ${toolFolder}/phpstan analyse -l 9 ${classesFolder}
+        tmperr=$?
+    else
+        ${toolFolder}/phpstan analyse -q -l 9 ${classesFolder} &>/dev/null
+        tmperr=$?
+    fi
+
+    if [ ${tmperr} -ne 0 ]
+    then
+        error=${tmperr}
+        myerror "Bei der Prüfung der Code-Qualität mit PHPStan ist ein Fehler ausgetreten [${tmperr}]"
+    else
+       myshortecho "Prüfen Code-Qualität mit PHPStan erfolgreich"
+    fi
+else
+    myinfo "Prüfen Code-Qualität mit PHPStan ausgelassen. PHPStan nicht vorhanden!"
+fi
+
+
 ## PHPUnit
 if [ -f ../../../vendor/bin/phpunit ] && [ -d ./Tests ]
 then

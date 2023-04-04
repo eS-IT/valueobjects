@@ -35,12 +35,11 @@ class UrlValue implements \Stringable
 
     /**
      * Erstellt ein Obejekt aus einem String.
-     *
      * @param string       $value
      * @param UrlValidator $validator
      * @param bool         $forceSchema
      * @param string       $schema
-     * @return static
+     * @return self
      */
     public static function fromString(
         string $value,

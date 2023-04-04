@@ -46,10 +46,10 @@ class IbanFactory
     /**
      * Erzeugt aus einem String ein Iban-Objekt.
      * Es spielt keine Rolle, ob der String Leerzeichen zur Gruppierung der Zahlen enthält.
-     * @param $value
+     * @param string $value
      * @return IbanValue
      */
-    public function createFromString($value): IbanValue
+    public function createFromString(string $value): IbanValue
     {
         return IbanValue::fromString($value, $this->converter, $this->validator);
     }

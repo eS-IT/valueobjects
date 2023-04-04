@@ -34,9 +34,10 @@ class EmailValue
 
 
     /**
-     * @param  string         $value
-     * @param  EmailValidator $validator
-     * @return static
+     * Erzeugt aus einem String ein EmailValue-Objekt.
+     * @param string         $value
+     * @param EmailValidator $validator
+     * @return self
      */
     public static function fromString(string $value, EmailValidator $validator): self
     {

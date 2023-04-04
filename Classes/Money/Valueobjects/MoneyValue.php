@@ -49,11 +49,10 @@ class MoneyValue implements \Stringable
 
 
     /**
-     * MoneyValue constructor.
-     *
      * @param int             $value
      * @param MoneyConverter  $converter
      * @param MoneyCalculator $calculator
+     * @param int             $decimalPlaces
      */
     protected function __construct(
         int $value,
@@ -70,7 +69,6 @@ class MoneyValue implements \Stringable
 
     /**
      * Erzeugt aus einem String mit einer Zahl mit zwei Nachkommastellen ein MoneyValue-Objekt.
-     *
      * @param string          $value
      * @param MoneyConverter  $converter
      * @param MoneyValidator  $validator
@@ -78,7 +76,7 @@ class MoneyValue implements \Stringable
      * @param string          $thousandSeparator
      * @param string          $decimal
      * @param int             $decimalPlaces
-     * @return static
+     * @return self
      */
     public static function fromString(
         string $value,
@@ -101,12 +99,11 @@ class MoneyValue implements \Stringable
 
     /**
      * Erzeugt aus einer Zahl ein MoneyValue-Objekt.
-     *
      * @param int             $value
      * @param MoneyConverter  $converter
      * @param MoneyCalculator $calculator
      * @param int             $decimalPlaces
-     * @return static
+     * @return self
      */
     public static function fromInt(
         int $value,

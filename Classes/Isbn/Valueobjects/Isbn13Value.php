@@ -34,9 +34,10 @@ class Isbn13Value implements \Stringable
 
 
     /**
-     * @param  string        $value
-     * @param  IsbnValidator $validator
-     * @return static
+     * Erzeugt aus einem String ein Isbn13Value-Objekt.
+     * @param string        $value
+     * @param IsbnValidator $validator
+     * @return self
      */
     public static function fromString(string $value, IsbnValidator $validator): self
     {

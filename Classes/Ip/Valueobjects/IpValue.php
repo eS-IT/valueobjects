@@ -34,9 +34,10 @@ class IpValue
 
 
     /**
-     * @param  string      $value
-     * @param  IpValidator $validator
-     * @return static
+     * Erzeugt aus einem String ein IpValue-Objekt.
+     * @param string      $value
+     * @param IpValidator $validator
+     * @return self
      */
     public static function fromString(string $value, IpValidator $validator): self
     {
