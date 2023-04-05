@@ -22,7 +22,6 @@ class MoneyValue implements \Stringable
 {
     /**
      * Betrag in Eurocent
-     *
      * @var int
      */
     private int $value;
@@ -30,7 +29,6 @@ class MoneyValue implements \Stringable
 
     /**
      * Anzahl der Nachkommastellen.
-     *
      * @var int
      */
     private int $decimalPlaces = 2;
@@ -117,7 +115,6 @@ class MoneyValue implements \Stringable
 
     /**
      * Wrapper für formatedValue().
-     *
      * @return string
      */
     public function __toString(): string
@@ -128,7 +125,6 @@ class MoneyValue implements \Stringable
 
     /**
      * Gibt einen String mit einer Zahl mit zwei Nachkommastellen zurück.
-     *
      * @param string $thousandSeparator
      * @param string $decimal
      * @return string
@@ -143,7 +139,6 @@ class MoneyValue implements \Stringable
 
     /**
      * Gibt den Integerwert zurück.
-     *
      * @return int
      */
     public function value(): int
@@ -154,7 +149,6 @@ class MoneyValue implements \Stringable
 
     /**
      * Gibt die Anzahl der Nachkommastellen zurück.
-     *
      * @return int
      */
     public function getDecimalPlaces(): int
@@ -165,7 +159,6 @@ class MoneyValue implements \Stringable
 
     /**
      * Addiert ein MoneyValue-Objekt zu diesem und gibt das neue zurück.
-     *
      * @param  MoneyValue $money
      * @return MoneyValue
      */
@@ -179,7 +172,6 @@ class MoneyValue implements \Stringable
 
     /**
      * Subtrahiert ein MoneyValue-Objekt von diesem und gibt das neue zurück.
-     *
      * @param  MoneyValue $money
      * @return MoneyValue
      */
@@ -193,7 +185,6 @@ class MoneyValue implements \Stringable
 
     /**
      * Multipliziert dieses MoneyValue-Objekt mit einer Zahl.
-     *
      * @param  int $count
      * @return MoneyValue
      */
@@ -207,7 +198,6 @@ class MoneyValue implements \Stringable
 
     /**
      * Dividiert dieses MoneyValue-Objekt durch eine Zahl.
-     *
      * @param  int $count
      * @return MoneyValue
      */

@@ -22,12 +22,11 @@ class MoneyConverter
     /**
      * @var MoneyValidator
      */
-    protected $moneyValidator;
+    protected MoneyValidator $moneyValidator;
 
 
     /**
      * MoneyConverter constructor.
-     *
      * @param MoneyValidator $val
      */
     public function __construct(MoneyValidator $val)
@@ -38,7 +37,6 @@ class MoneyConverter
 
     /**
      * Konvertier einen String mit einer Zahl mit zwei Nachkommastellen in den Centbetrag.
-     *
      * @param  string $value
      * @param  string $thousandSeparator
      * @param  string $decimal
@@ -60,7 +58,6 @@ class MoneyConverter
 
     /**
      * Konvertiert einen Centwert in eine Zahl mit zwei Nachkommastellen.
-     *
      * @param int    $value
      * @param string $thousandSeparator
      * @param string $decimal

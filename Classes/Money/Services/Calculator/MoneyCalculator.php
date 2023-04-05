@@ -21,7 +21,6 @@ class MoneyCalculator
 {
     /**
      * Addiert zwei MoneyValue-Objekte.
-     *
      * @param  MoneyValue $moneyOne
      * @param  MoneyValue $moneyTwo
      * @return int
@@ -38,7 +37,6 @@ class MoneyCalculator
 
     /**
      * Addiert zwei MoneyValue-Objekte.
-     *
      * @param  MoneyValue $moneyOne
      * @param  MoneyValue $moneyTwo
      * @return int
@@ -55,7 +53,6 @@ class MoneyCalculator
 
     /**
      * Multipliziert ein MoneyValue-Objekt mit einer Zahl.
-     *
      * @param  MoneyValue $moneyOne
      * @param  int        $count
      * @return int
@@ -68,7 +65,6 @@ class MoneyCalculator
 
     /**
      * Dividiert ein MoneyValue-Objekt durch eine Zahl.
-     *
      * @param  MoneyValue $moneyOne
      * @param  int        $count
      * @return int

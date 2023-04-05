@@ -35,7 +35,6 @@ class EmailFactory
 
     /**
      * Erstellt aus einem String ein E-Mail-Objekt.
-     *
      * @param  string $value
      * @return EmailValue
      */

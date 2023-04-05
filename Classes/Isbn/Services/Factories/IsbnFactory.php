@@ -36,7 +36,6 @@ class IsbnFactory
 
     /**
      * Erzeugt aus einem String ein Isbn13-ValueObject.
-     *
      * @param  string $value
      * @return Isbn13Value
      */
@@ -48,7 +47,6 @@ class IsbnFactory
 
     /**
      * Erzeugt aus einem String ein Isbn13-ValueObject.
-     *
      * @param  string $value
      * @return Isbn10Value
      */

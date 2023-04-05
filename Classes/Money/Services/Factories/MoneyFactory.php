@@ -40,7 +40,6 @@ class MoneyFactory
 
     /**
      * MoneyFactory constructor.
-     *
      * @param MoneyConverter  $converter
      * @param MoneyValidator  $validator
      * @param MoneyCalculator $calculator
@@ -55,7 +54,6 @@ class MoneyFactory
 
     /**
      * Erstellt aus einem String mit zwei Nachkommastellen ein MoneyValue-Objekt.
-     *
      * @param string $value
      * @param string $separator
      * @param string $decimal
@@ -82,7 +80,6 @@ class MoneyFactory
 
     /**
      * Erstellt aus einem Centbetrag ein MoneyValue-Objekt.
-     *
      * @param int $value
      * @param int $decimalPlaces
      * @return MoneyValue

@@ -17,7 +17,6 @@ class EmailValidator
 {
     /**
      * Regulärer Ausdruck für die E-Mail-Adresse.
-     *
      * @see https://rgxdb.com/r/1JWKZ0PW
      */
     private const RGXP_EMAIL = '/^[-!#-\'*+\\/-9=?^-~]+(?:\\.[-!#-\'*+\\/-9=?^-~]+)*@[-!#-\'*+\\/-9=?^-~]+(?:\\.' .
@@ -26,7 +25,6 @@ class EmailValidator
 
     /**
      * Prüft, ob der übergebene String eine valide E-Mail-Adresse ist.
-     *
      * @param  string $value
      * @return bool
      */

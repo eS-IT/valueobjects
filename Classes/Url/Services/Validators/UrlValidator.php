@@ -16,10 +16,8 @@ namespace Esit\Valueobjects\Classes\Url\Services\Validators;
 class UrlValidator
 {
     /**
-     * Reguläre Ausdruck für die Url.
-     *
+     * Regulärer Ausdruck für die Url.
      * Orginal:
-     *
      * @see    https://gist.github.com/dperini/729294
      * @author Diego Perini (http://www.iport.it)
      */
@@ -32,15 +30,13 @@ class UrlValidator
 
     /**
      * Erlaubte Schemata für die Url.
-     *
      * @var string
      */
-    private $schemas = 'https?|ftp|ssh|sftp|smb';
+    private string $schemas = 'https?|ftp|ssh|sftp|smb';
 
 
     /**
      * Prüft, ob der übergebene String eine valide Url ist.
-     *
      * @param string $value
      * @param bool   $forceSchema
      * @param string $schema

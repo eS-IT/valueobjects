@@ -19,7 +19,6 @@ class IbanValidator
 {
     /**
      * Regulärer Ausdruck für die IBAN-Adresse.
-     *
      * @see https://www.regextester.com/115565
      */
     private const RGXP_IP = '/^(?:(?:IT|SM)\d{2}[A-Z]\d{22}|CY\d{2}[A-Z]\d{23}|NL\d{2}[A-Z]{4}\d{10}|LV\d{2}[A-Z]{4}' .

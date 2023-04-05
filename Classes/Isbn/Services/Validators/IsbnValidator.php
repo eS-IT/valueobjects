@@ -29,7 +29,6 @@ class IsbnValidator
 
     /**
      * Prüft, ob der übergebene String eine valide ISBN13 ist.
-     *
      * @param  string $value
      * @return bool
      */
@@ -41,7 +40,6 @@ class IsbnValidator
 
     /**
      * Prüft, ob der übergebene String eine valide ISBN10 ist.
-     *
      * @param  string $value
      * @return bool
      */
@@ -53,7 +51,6 @@ class IsbnValidator
 
     /**
      * Prüft die Prüfsumme der ISBN13
-     *
      * @param  string $value
      * @return bool
      */
@@ -80,7 +77,6 @@ class IsbnValidator
 
     /**
      * Prüft die Prüfsumme der ISBN10
-     *
      * @param  string $value
      * @return bool
      */

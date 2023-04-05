@@ -57,7 +57,6 @@ class UrlValue implements \Stringable
 
     /**
      * Gibt den Wert zurück.
-     *
      * @return string
      */
     public function value(): string
@@ -68,7 +67,6 @@ class UrlValue implements \Stringable
 
     /**
      * Gibt den Wert aus.
-     *
      * @return string
      */
     public function __toString(): string

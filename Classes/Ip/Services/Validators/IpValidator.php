@@ -17,7 +17,6 @@ class IpValidator
 {
     /**
      * Regulärer Ausdruck für die IP-Adresse.
-     *
      * @see https://rgxdb.com/r/1C0GISTC
      */
     private const RGXP_IP = '/^(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}$/';

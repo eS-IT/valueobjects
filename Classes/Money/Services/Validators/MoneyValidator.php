@@ -19,7 +19,6 @@ class MoneyValidator
 {
     /**
      * Prüft, ob es sich um eine Zahl mit zwei Nachkommastellen handelt.
-     *
      * @param  string $value
      * @param  string $thousandSeparator
      * @param  string $decimal
@@ -60,7 +59,6 @@ class MoneyValidator
 
     /**
      * Prüft, ob ein Integerwert ein valider Centbetrag ist.
-     *
      * @param  int $value
      * @return bool
      */
