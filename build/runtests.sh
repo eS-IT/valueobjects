@@ -78,21 +78,46 @@ done
 ## Variablen
 error=0
 tmperr=0
-configFolder='./build'
+configFolder="$(pwd)/build"
 toolFolder="${configFolder}/tools"
-classesFolder='./Classes'
+classesFolder="$(pwd)/Classes"
+
+
+## phpcpd
+if [ -f "${toolFolder}/phpcpd" ]
+then
+    myecho "Prüfe auf doppelten Code"
+    if [ "${VERBOSE}" == "TRUE" ]
+    then
+        "${toolFolder}/phpcpd" "${classesFolder}"
+        tmperr=$?
+    else
+        "${toolFolder}/phpcpd" "${classesFolder}" &>/dev/null
+        tmperr=$?
+    fi
+
+    if [ ${tmperr} -ne 0 ]
+    then
+        error=${tmperr}
+        myerror "Bei der Prüfung auf doppelten Code ist ein Fehler ausgetreten [${tmperr}]"
+    else
+       myshortecho "Prüfung auf doppelten Code erfolgreich"
+    fi
+else
+    myinfo "Prüfen auf doppelten Code ausgelassen. PhpCopyAndPasteDetector nicht vorhanden!"
+fi
 
 
 ## phpcs
-if [ -f ${toolFolder}/phpcbf ]
+if [ -f "${toolFolder}/phpcbf" ]
 then
     myecho "Führe statische Code-Verbesserung mit PHP Codesniffer durch"
     if [ "${VERBOSE}" == "TRUE" ]
     then
-        ${toolFolder}/phpcbf --colors --standard=PSR12 ${classesFolder}
+        "${toolFolder}/phpcbf" --colors --standard=PSR12 "${classesFolder}"
         tmperr=$?
     else
-        ${toolFolder}/phpcbf -q --standard=PSR12 ${classesFolder} &>/dev/null
+        "${toolFolder}/phpcbf" -q --standard=PSR12 "${classesFolder}" &>/dev/null
         tmperr=$?
     fi
 
@@ -109,15 +134,15 @@ fi
 
 
 ## phpcs
-if [ -f ${toolFolder}/phpcs ]
+if [ -f "${toolFolder}/phpcs" ]
 then
     myecho "Führe statische Code-Analyse mit PHP Codesniffer durch"
     if [ "${VERBOSE}" == "TRUE" ]
     then
-        ${toolFolder}/phpcs --colors --standard=PSR12 ${classesFolder}
+        "${toolFolder}/phpcs" --colors --standard=PSR12 "${classesFolder}"
         tmperr=$?
     else
-        ${toolFolder}/phpcs -q --standard=PSR12 ${classesFolder}
+        "${toolFolder}/phpcs" -q --standard=PSR12 "${classesFolder}"
         tmperr=$?
     fi
 
@@ -133,42 +158,17 @@ else
 fi
 
 
-## phpcpd
-if [ -f ${toolFolder}/phpcpd ]
-then
-    myecho "Prüfe auf doppelten Code"
-    if [ "${VERBOSE}" == "TRUE" ]
-    then
-        ${toolFolder}/phpcpd ${classesFolder}
-        tmperr=$?
-    else
-        ${toolFolder}/phpcpd ${classesFolder} &>/dev/null
-        tmperr=$?
-    fi
-
-    if [ ${tmperr} -ne 0 ]
-    then
-        error=${tmperr}
-        myerror "Bei der Prüfung auf doppelten Code ist ein Fehler ausgetreten [${tmperr}]"
-    else
-       myshortecho "Prüfung auf doppelten Code erfolgreich"
-    fi
-else
-    myinfo "Prüfen auf doppelten Code ausgelassen. PhpCopyAndPasteDetector nicht vorhanden!"
-fi
-
-
 ## PHPStan
-if [ -f ${toolFolder}/phpcpd ]
+if [ -f "${toolFolder}/phpcpd" ]
 then
     myecho "Prüfe Code-Qualität mit PHPStan"
 
     if [ "${VERBOSE}" == "TRUE" ]
     then
-        ${toolFolder}/phpstan analyse -l 9 ${classesFolder}
+        "${toolFolder}/phpstan" analyse -c "${configFolder}/phpstan.neon"
         tmperr=$?
     else
-        ${toolFolder}/phpstan analyse -q -l 9 ${classesFolder} &>/dev/null
+        "${toolFolder}/phpstan" analyse -q -c "${configFolder}/phpstan.neon" &>/dev/null
         tmperr=$?
     fi
 
@@ -190,7 +190,7 @@ then
     # PHPUnit gobal mit composer installiert
     echo
     myecho "Führe UnitTests mit globalem PHPUnit durch"
-    XDEBUG_MODE=coverage ../../../vendor/bin/phpunit --configuration ${configFolder}/phpunit/phpunit.xml.dist --testdox
+    XDEBUG_MODE=coverage ../../../vendor/bin/phpunit --configuration "${configFolder}/phpunit/phpunit.xml.dist" --testdox
     tmperr=$?
 
     if [ ${tmperr} -ne 0 ]
@@ -203,7 +203,6 @@ else
 fi
 
 echo
-
 
 ## Zusammenfassung
 if [ ${error} -ne 0 ]
