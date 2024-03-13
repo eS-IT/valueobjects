@@ -1,0 +1,13 @@
+# Services
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    Esit\Valueobjects\Classes\Duration\Services\Calculators\DurationCalculator: ~
+
+    Esit\Valueobjects\Classes\Duration\Services\Converter\DurationConverter: ~
+
+    Esit\Valueobjects\Classes\Duration\Services\Factories\DurationFactory: ~
+
+    Esit\Valueobjects\Classes\Duration\Services\Helper\DurationDivider: ~

@@ -1,10 +1,12 @@
 <?php
 
 /**
- * @package   valueobjects
  * @since     06.08.2022 - 10:15
+ *
  * @author    Patrick Froch <info@easySolutionsIT.de>
+ *
  * @see       http://easySolutionsIT.de
+ *
  * @copyright e@sy Solutions IT 2022
  * @license   LGPL
  */
@@ -29,7 +31,9 @@ class IsbnValidator
 
     /**
      * Prüft, ob der übergebene String eine valide ISBN13 ist.
-     * @param  string $value
+     *
+     * @param string $value
+     *
      * @return bool
      */
     public function isValidIsbn13(string $value): bool
@@ -40,7 +44,9 @@ class IsbnValidator
 
     /**
      * Prüft, ob der übergebene String eine valide ISBN10 ist.
-     * @param  string $value
+     *
+     * @param string $value
+     *
      * @return bool
      */
     public function isValidIsbn10(string $value): bool
@@ -51,7 +57,9 @@ class IsbnValidator
 
     /**
      * Prüft die Prüfsumme der ISBN13
-     * @param  string $value
+     *
+     * @param string $value
+     *
      * @return bool
      */
     public function validateCheckSum13(string $value): bool
@@ -64,20 +72,22 @@ class IsbnValidator
         }
 
         for ($i = 0; $i < 13; $i += 2) {
-            $check += (int)$value[$i];
+            $check += (int) $value[$i];
         }
 
         for ($i = 1; $i < 12; $i += 2) {
-            $check += 3 * (int)$value[$i];
+            $check += 3 * (int) $value[$i];
         }
 
-        return $check % 10 === 0;
+        return 0 === $check % 10;
     }
 
 
     /**
      * Prüft die Prüfsumme der ISBN10
-     * @param  string $value
+     *
+     * @param string $value
+     *
      * @return bool
      */
     public function validateCheckSum10(string $value): bool
@@ -91,14 +101,14 @@ class IsbnValidator
 
         $checksum = \substr($value, -1);
 
-        for ($i = 0; $i < 9; $i++) {
-            $check += (int)$value[$i] * ($i + 1);
+        for ($i = 0; $i < 9; ++$i) {
+            $check += (int) $value[$i] * ($i + 1);
         }
 
-        if (\strtoupper($checksum) === 'X') {
-            return $check % 11 === 10;
+        if ('X' === \strtoupper($checksum)) {
+            return 10 === $check % 11;
         }
 
-        return $check % 11 === (int)$checksum;
+        return $check % 11 === (int) $checksum;
     }
 }

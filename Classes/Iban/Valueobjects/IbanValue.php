@@ -1,10 +1,12 @@
 <?php
 
 /**
- * @package   valueobjects
  * @since     06.08.2022 - 10:12
+ *
  * @author    Patrick Froch <info@easySolutionsIT.de>
+ *
  * @see       http://easySolutionsIT.de
+ *
  * @copyright e@sy Solutions IT 2022
  * @license   LGPL
  */
@@ -43,10 +45,21 @@ class IbanValue implements \Stringable
 
 
     /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->value();
+    }
+
+
+    /**
      * Erzeugt aus einem String ein IbanValue-Objekt.
+     *
      * @param string        $value
      * @param IbanConverter $converter
      * @param IbanValidator $validator
+     *
      * @return self
      */
     public static function fromString(string $value, IbanConverter $converter, IbanValidator $validator): self
@@ -79,16 +92,8 @@ class IbanValue implements \Stringable
 
 
     /**
-     * @return string
-     */
-    public function __toString(): string
-    {
-        return $this->value();
-    }
-
-
-    /**
      * Gibt einen formatierten Wert zurück.
+     *
      * @return string
      */
     public function getFormatedValue(): string

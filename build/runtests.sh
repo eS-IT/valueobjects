@@ -4,10 +4,12 @@
 #title:         runtests.sh
 #description:   Führt die Tests der Softwate aus
 #author:        pfroch <patrick.froch@easySolutionsIT.de>
-#date:          20220810
+#date:          20231027
+#version:       1.1.0
 #usage:         runtests.sh
 # =============================================================================
 #
+
 
 ## Ausgabe
 function myecho() {
@@ -47,12 +49,20 @@ function myshortecho() {
 }
 
 
-##
-# Header
-#
-echo -e "\e[1;96m\n================================================================================"
-echo -e "e@sy Solutions IT - Test Suite by Patrick Froch - Version: 1.0.1"
-echo -e "--------------------------------------------------------------------------------\n\e[0m"
+## Variablen
+error=0
+tmperr=0
+configFolder='./build'
+toolFolder="${configFolder}/tools"
+classesFolder='./Classes'
+EXTENDED="TRUE"
+PHP="php"
+FIX=""
+
+if [ -f $HOME/bin/php ]
+then
+    PHP="$HOME/bin/php"
+fi
 
 
 ##
@@ -66,6 +76,21 @@ do
         #shift  # Kein shift, da kein Wert übergeben wird!
         ;;
 
+    -e|--extended)
+        EXTENDED="TRUE" # Bis auf Weiteres immer true! Wenn nicht, Zeile 92 entfernen!
+        #shift  # Kein shift, da kein Wert übergeben wird!
+        ;;
+
+  -f|--fix)
+        FIX="--fix"
+        #shift  # Kein shift, da kein Wert übergeben wird!
+        ;;
+
+    -e|--extended)
+        EXTENDED="TRUE" # Bis auf Weiteres immer true! Wenn nicht, Zeile 92 entfernen!
+        #shift  # Kein shift, da kein Wert übergeben wird!
+        ;;
+
     *)          # unknown option
         myerror "Parameter [${1}] unbekannt!"
         #shift  # Kein shift, da kein Wert übergeben wird!
@@ -75,74 +100,27 @@ do
 done
 
 
-## Variablen
-error=0
-tmperr=0
-configFolder="$(pwd)/build"
-toolFolder="${configFolder}/tools"
-classesFolder="$(pwd)/Classes"
-
-
-## phpcpd
-if [ -f "${toolFolder}/phpcpd" ]
-then
-    myecho "Prüfe auf doppelten Code"
-    if [ "${VERBOSE}" == "TRUE" ]
-    then
-        "${toolFolder}/phpcpd" "${classesFolder}"
-        tmperr=$?
-    else
-        "${toolFolder}/phpcpd" "${classesFolder}" &>/dev/null
-        tmperr=$?
-    fi
-
-    if [ ${tmperr} -ne 0 ]
-    then
-        error=${tmperr}
-        myerror "Bei der Prüfung auf doppelten Code ist ein Fehler ausgetreten [${tmperr}]"
-    else
-       myshortecho "Prüfung auf doppelten Code erfolgreich"
-    fi
-else
-    myinfo "Prüfen auf doppelten Code ausgelassen. PhpCopyAndPasteDetector nicht vorhanden!"
-fi
+##
+# Header
+#
+echo -e "\e[1;96m\n================================================================================"
+echo -e "e@sy Solutions IT - Test Suite by Patrick Froch - Version: 1.0.1"
+echo -e "--------------------------------------------------------------------------------"
+echo -n "PHP-Version: "
+$PHP -v | grep ^PHP | cut -d' ' -f2 | cut -d'-' -f1
+echo -e "\n\e[0m"
 
 
 ## phpcs
-if [ -f "${toolFolder}/phpcbf" ]
-then
-    myecho "Führe statische Code-Verbesserung mit PHP Codesniffer durch"
-    if [ "${VERBOSE}" == "TRUE" ]
-    then
-        "${toolFolder}/phpcbf" --colors --standard=PSR12 "${classesFolder}"
-        tmperr=$?
-    else
-        "${toolFolder}/phpcbf" -q --standard=PSR12 "${classesFolder}" &>/dev/null
-        tmperr=$?
-    fi
-
-    if [ ${tmperr} -ne 0 ]
-    then
-        error=${tmperr}
-        myerror "Es ist ein Fehler ausgetreten [${tmperr}]"
-    else
-        myshortecho "Statische Code-Verbesserung mit PHP Codesniffer erfolgreich"
-    fi
-else
-    myinfo "Statische Code-Verbesserung ausgelassen. PHP Codesniffer nicht vorhanden!"
-fi
-
-
-## phpcs
-if [ -f "${toolFolder}/phpcs" ]
+if [ -f ${toolFolder}/phpcs ]
 then
     myecho "Führe statische Code-Analyse mit PHP Codesniffer durch"
     if [ "${VERBOSE}" == "TRUE" ]
     then
-        "${toolFolder}/phpcs" --colors --standard=PSR12 "${classesFolder}"
+        ${PHP} ${toolFolder}/phpcs --colors --standard=PSR2 ${classesFolder}
         tmperr=$?
     else
-        "${toolFolder}/phpcs" -q --standard=PSR12 "${classesFolder}"
+        ${PHP} ${toolFolder}/phpcs -q --standard=PSR2 ${classesFolder}
         tmperr=$?
     fi
 
@@ -158,29 +136,77 @@ else
 fi
 
 
-## PHPStan
-if [ -f "${toolFolder}/phpcpd" ]
+## phpcpd
+if [ -f ${toolFolder}/phpcpd ]
 then
-    myecho "Prüfe Code-Qualität mit PHPStan"
-
+    myecho "Prüfe auf doppelten Code"
     if [ "${VERBOSE}" == "TRUE" ]
     then
-        "${toolFolder}/phpstan" analyse -c "${configFolder}/phpstan.neon"
+        ${PHP} ${toolFolder}/phpcpd ${classesFolder}
         tmperr=$?
     else
-        "${toolFolder}/phpstan" analyse -q -c "${configFolder}/phpstan.neon" &>/dev/null
+        ${PHP} ${toolFolder}/phpcpd ${classesFolder} &>/dev/null
         tmperr=$?
     fi
 
     if [ ${tmperr} -ne 0 ]
     then
         error=${tmperr}
-        myerror "Bei der Prüfung der Code-Qualität mit PHPStan ist ein Fehler ausgetreten [${tmperr}]"
+        myerror "Bei der Prüfung auf doppelten Code ist ein Fehler ausgetreten [${tmperr}]"
     else
-       myshortecho "Prüfen Code-Qualität mit PHPStan erfolgreich"
+       myshortecho "Prüfung auf doppelten Code erfolgreich"
     fi
 else
-    myinfo "Prüfen Code-Qualität mit PHPStan ausgelassen. PHPStan nicht vorhanden!"
+    myinfo "Prüfen auf doppelten Code ausgelassen. PhpCopyAndPasteDetector nicht vorhanden!"
+fi
+
+
+## Easy Coding Standard
+if [ -f ../../../vendor/bin/ecs ] && [ "TRUE" == "${EXTENDED}" ]
+then
+    myecho "Prüfe Code-Style mit Easy Coding Standard"
+    if [ "${VERBOSE}" == "TRUE" ]
+    then
+        ${PHP} ../../../vendor/bin/ecs ${FIX} --config=build/ecs.php
+        tmperr=$?
+    else
+        ${PHP} ../../../vendor/bin/ecs ${FIX} -q --config=build/ecs.php
+        tmperr=$?
+    fi
+
+    if [ ${tmperr} -ne 0 ]
+    then
+        error=${tmperr}
+        myerror "Es ist ein Fehler ausgetreten [${tmperr}]"
+    fi
+else
+    myinfo "Prüfen des Code-Style mit Easy Coding Standard ausgelassen. ecs nicht vorhanden!"
+fi
+
+
+## PHPStan
+if [ -f "${toolFolder}/phpstan" ] && [ "TRUE" == "${EXTENDED}" ]
+then
+    myecho "Prüfe Code-Qualität mit PHPStan"
+
+    if [ "${VERBOSE}" == "TRUE" ]
+    then
+        ${PHP} ${toolFolder}/phpstan analyse -c "${configFolder}/phpstan.neon"
+        tmperr=$?
+    else
+        ${PHP} ${toolFolder}/phpstan analyse -q -c "${configFolder}/phpstan.neon"
+        tmperr=$?
+    fi
+
+    if [ ${tmperr} -ne 0 ]
+    then
+        error=${tmperr}
+        "${toolFolder}/phpstan" analyse -c "${configFolder}/phpstan.neon"
+    else
+       myshortecho "Prüfen der Code-Qualität mit PHPStan erfolgreich"
+    fi
+else
+    myinfo "Prüfen der Code-Qualität mit PHPStan ausgelassen. PHPStan nicht vorhanden!"
 fi
 
 
@@ -190,7 +216,7 @@ then
     # PHPUnit gobal mit composer installiert
     echo
     myecho "Führe UnitTests mit globalem PHPUnit durch"
-    XDEBUG_MODE=coverage ../../../vendor/bin/phpunit --configuration "${configFolder}/phpunit/phpunit.xml.dist" --testdox
+    XDEBUG_MODE=coverage ${PHP} ../../../vendor/bin/phpunit --configuration ${configFolder}/phpunit/phpunit.xml.dist #--testdox
     tmperr=$?
 
     if [ ${tmperr} -ne 0 ]
@@ -203,6 +229,7 @@ else
 fi
 
 echo
+
 
 ## Zusammenfassung
 if [ ${error} -ne 0 ]

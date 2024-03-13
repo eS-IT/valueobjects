@@ -7,7 +7,7 @@
  * @author      Patrick Froch <info@easySolutionsIT.de>
  * @see         http://easySolutionsIT.de
  * @copyright   e@sy Solutions IT 2022
- * @license     EULA
+ * @license     LGPL
  */
 
 declare(strict_types=1);

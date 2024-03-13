@@ -1,10 +1,12 @@
 <?php
 
 /**
- * @package   valueobjects
  * @since     21.07.22 - 17:45
+ *
  * @author    Patrick Froch <info@easySolutionsIT.de>
+ *
  * @see       http://easySolutionsIT.de
+ *
  * @copyright e@sy Solutions IT 2022
  * @license   LGPL
  */
@@ -21,8 +23,10 @@ class MoneyCalculator
 {
     /**
      * Addiert zwei MoneyValue-Objekte.
-     * @param  MoneyValue $moneyOne
-     * @param  MoneyValue $moneyTwo
+     *
+     * @param MoneyValue $moneyOne
+     * @param MoneyValue $moneyTwo
+     *
      * @return int
      */
     public function add(MoneyValue $moneyOne, MoneyValue $moneyTwo): int
@@ -37,8 +41,10 @@ class MoneyCalculator
 
     /**
      * Addiert zwei MoneyValue-Objekte.
-     * @param  MoneyValue $moneyOne
-     * @param  MoneyValue $moneyTwo
+     *
+     * @param MoneyValue $moneyOne
+     * @param MoneyValue $moneyTwo
+     *
      * @return int
      */
     public function substract(MoneyValue $moneyOne, MoneyValue $moneyTwo): int
@@ -53,8 +59,10 @@ class MoneyCalculator
 
     /**
      * Multipliziert ein MoneyValue-Objekt mit einer Zahl.
-     * @param  MoneyValue $moneyOne
-     * @param  int        $count
+     *
+     * @param MoneyValue $moneyOne
+     * @param int        $count
+     *
      * @return int
      */
     public function multiply(MoneyValue $moneyOne, int $count): int
@@ -65,8 +73,10 @@ class MoneyCalculator
 
     /**
      * Dividiert ein MoneyValue-Objekt durch eine Zahl.
-     * @param  MoneyValue $moneyOne
-     * @param  int        $count
+     *
+     * @param MoneyValue $moneyOne
+     * @param int        $count
+     *
      * @return int
      */
     public function divide(MoneyValue $moneyOne, int $count): int
@@ -75,6 +85,6 @@ class MoneyCalculator
             throw new DivisionByZeroException('division by zero not possible');
         }
 
-        return (int)($moneyOne->value() / $count);
+        return (int) ($moneyOne->value() / $count);
     }
 }

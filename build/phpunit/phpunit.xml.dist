@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="../../../../../vendor/phpunit/phpunit/phpunit.xsd"
-         backupGlobals="false"
-         colors="true"
-         bootstrap="bootstrap.php"
-         convertDeprecationsToExceptions="false"
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
+    backupGlobals="false"
+    colors="true"
+    bootstrap="bootstrap.php"
+    cacheDirectory=".phpunit.cache"
 >
-    <!-- Coverage -->
-    <coverage processUncoveredFiles="true">
-        <include>
-            <directory suffix=".php">../../Classes/</directory>
-        </include>
-        <report>
-            <html outputDirectory="/tmp/coverage" lowUpperBound="35" highLowerBound="70"/>
-            <text outputFile="php://stdout" showUncoveredFiles="false" showOnlySummary="true"/>
-        </report>
-    </coverage>
-
-    <!-- Tests -->
-    <testsuites>
-        <testsuite name="esitTestSuite">
-            <directory>../../Tests/</directory>
-        </testsuite>
-    </testsuites>
+  <!-- Coverage -->
+  <coverage>
+    <report>
+      <html outputDirectory="/tmp/coverage" lowUpperBound="35" highLowerBound="70"/>
+      <text outputFile="php://stdout" showUncoveredFiles="false" showOnlySummary="true"/>
+    </report>
+  </coverage>
+  <!-- Tests -->
+  <testsuites>
+    <testsuite name="esitTestSuite">
+      <directory>../../Tests/</directory>
+    </testsuite>
+  </testsuites>
+  <source>
+    <include>
+      <directory suffix=".php">../../Classes/</directory>
+    </include>
+  </source>
 </phpunit>

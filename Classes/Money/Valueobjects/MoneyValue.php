@@ -1,10 +1,12 @@
 <?php
 
 /**
- * @package   valueobjects
  * @since     21.07.22 - 17:35
+ *
  * @author    Patrick Froch <info@easySolutionsIT.de>
+ *
  * @see       http://easySolutionsIT.de
+ *
  * @copyright e@sy Solutions IT 2022
  * @license   LGPL
  */
@@ -14,14 +16,15 @@ declare(strict_types=1);
 namespace Esit\Valueobjects\Classes\Money\Valueobjects;
 
 use Esit\Valueobjects\Classes\Money\Exceptions\NotAValidMoneyStringException;
-use Esit\Valueobjects\Classes\Money\Services\Converter\MoneyConverter;
 use Esit\Valueobjects\Classes\Money\Services\Calculator\MoneyCalculator;
+use Esit\Valueobjects\Classes\Money\Services\Converter\MoneyConverter;
 use Esit\Valueobjects\Classes\Money\Services\Validators\MoneyValidator;
 
 class MoneyValue implements \Stringable
 {
     /**
      * Betrag in Eurocent
+     *
      * @var int
      */
     private int $value;
@@ -29,6 +32,7 @@ class MoneyValue implements \Stringable
 
     /**
      * Anzahl der Nachkommastellen.
+     *
      * @var int
      */
     private int $decimalPlaces = 2;
@@ -66,7 +70,19 @@ class MoneyValue implements \Stringable
 
 
     /**
+     * Wrapper für formatedValue().
+     *
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->formatedValue();
+    }
+
+
+    /**
      * Erzeugt aus einem String mit einer Zahl mit zwei Nachkommastellen ein MoneyValue-Objekt.
+     *
      * @param string          $value
      * @param MoneyConverter  $converter
      * @param MoneyValidator  $validator
@@ -74,6 +90,7 @@ class MoneyValue implements \Stringable
      * @param string          $thousandSeparator
      * @param string          $decimal
      * @param int             $decimalPlaces
+     *
      * @return self
      */
     public static function fromString(
@@ -97,10 +114,12 @@ class MoneyValue implements \Stringable
 
     /**
      * Erzeugt aus einer Zahl ein MoneyValue-Objekt.
+     *
      * @param int             $value
      * @param MoneyConverter  $converter
      * @param MoneyCalculator $calculator
      * @param int             $decimalPlaces
+     *
      * @return self
      */
     public static function fromInt(
@@ -114,19 +133,11 @@ class MoneyValue implements \Stringable
 
 
     /**
-     * Wrapper für formatedValue().
-     * @return string
-     */
-    public function __toString(): string
-    {
-        return $this->formatedValue();
-    }
-
-
-    /**
      * Gibt einen String mit einer Zahl mit zwei Nachkommastellen zurück.
+     *
      * @param string $thousandSeparator
      * @param string $decimal
+     *
      * @return string
      */
     public function formatedValue(
@@ -139,6 +150,7 @@ class MoneyValue implements \Stringable
 
     /**
      * Gibt den Integerwert zurück.
+     *
      * @return int
      */
     public function value(): int
@@ -149,6 +161,7 @@ class MoneyValue implements \Stringable
 
     /**
      * Gibt die Anzahl der Nachkommastellen zurück.
+     *
      * @return int
      */
     public function getDecimalPlaces(): int
@@ -159,7 +172,9 @@ class MoneyValue implements \Stringable
 
     /**
      * Addiert ein MoneyValue-Objekt zu diesem und gibt das neue zurück.
-     * @param  MoneyValue $money
+     *
+     * @param MoneyValue $money
+     *
      * @return MoneyValue
      */
     public function add(self $money): self
@@ -172,7 +187,9 @@ class MoneyValue implements \Stringable
 
     /**
      * Subtrahiert ein MoneyValue-Objekt von diesem und gibt das neue zurück.
-     * @param  MoneyValue $money
+     *
+     * @param MoneyValue $money
+     *
      * @return MoneyValue
      */
     public function substract(self $money): self
@@ -185,7 +202,9 @@ class MoneyValue implements \Stringable
 
     /**
      * Multipliziert dieses MoneyValue-Objekt mit einer Zahl.
-     * @param  int $count
+     *
+     * @param int $count
+     *
      * @return MoneyValue
      */
     public function multiply(int $count): self
@@ -198,7 +217,9 @@ class MoneyValue implements \Stringable
 
     /**
      * Dividiert dieses MoneyValue-Objekt durch eine Zahl.
-     * @param  int $count
+     *
+     * @param int $count
+     *
      * @return MoneyValue
      */
     public function divide(int $count): self

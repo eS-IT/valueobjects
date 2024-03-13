@@ -1,10 +1,12 @@
 <?php
 
 /**
- * @package   valueobjects
  * @since     08.08.2022 - 10:52
+ *
  * @author    Patrick Froch <info@easySolutionsIT.de>
+ *
  * @see       http://easySolutionsIT.de
+ *
  * @copyright e@sy Solutions IT 2022
  * @license   LGPL
  */
@@ -34,11 +36,24 @@ class UrlValue implements \Stringable
 
 
     /**
+     * Gibt den Wert aus.
+     *
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->value();
+    }
+
+
+    /**
      * Erstellt ein Obejekt aus einem String.
+     *
      * @param string       $value
      * @param UrlValidator $validator
      * @param bool         $forceSchema
      * @param string       $schema
+     *
      * @return self
      */
     public static function fromString(
@@ -57,20 +72,11 @@ class UrlValue implements \Stringable
 
     /**
      * Gibt den Wert zurück.
+     *
      * @return string
      */
     public function value(): string
     {
         return $this->value;
-    }
-
-
-    /**
-     * Gibt den Wert aus.
-     * @return string
-     */
-    public function __toString(): string
-    {
-        return $this->value();
     }
 }

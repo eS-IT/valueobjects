@@ -6,7 +6,7 @@
  * @author      Patrick Froch <info@easySolutionsIT.de>
  * @see         http://easySolutionsIT.de
  * @copyright   e@sy Solutions IT 2022
- * @license     EULA
+ * @license     LGPL
  */
 namespace Esit\Valueobjects\Tests\Iban\Services\Validators;
 

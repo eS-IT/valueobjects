@@ -1,10 +1,12 @@
 <?php
 
 /**
- * @package   valueobjects
  * @since     06.08.2022 - 10:21
+ *
  * @author    Patrick Froch <info@easySolutionsIT.de>
+ *
  * @see       http://easySolutionsIT.de
+ *
  * @copyright e@sy Solutions IT 2022
  * @license   LGPL
  */
@@ -36,7 +38,9 @@ class IsbnFactory
 
     /**
      * Erzeugt aus einem String ein Isbn13-ValueObject.
-     * @param  string $value
+     *
+     * @param string $value
+     *
      * @return Isbn13Value
      */
     public function createIsbn13FromString(string $value): Isbn13Value
@@ -47,7 +51,9 @@ class IsbnFactory
 
     /**
      * Erzeugt aus einem String ein Isbn13-ValueObject.
-     * @param  string $value
+     *
+     * @param string $value
+     *
      * @return Isbn10Value
      */
     public function createIsbn10FromString(string $value): Isbn10Value

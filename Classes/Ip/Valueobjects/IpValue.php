@@ -1,10 +1,12 @@
 <?php
 
 /**
- * @package   valueobjects
  * @since     09.08.2022 - 10:40
+ *
  * @author    Patrick Froch <info@easySolutionsIT.de>
+ *
  * @see       http://easySolutionsIT.de
+ *
  * @copyright e@sy Solutions IT 2022
  * @license   LGPL
  */
@@ -34,9 +36,20 @@ class IpValue
 
 
     /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->value();
+    }
+
+
+    /**
      * Erzeugt aus einem String ein IpValue-Objekt.
+     *
      * @param string      $value
      * @param IpValidator $validator
+     *
      * @return self
      */
     public static function fromString(string $value, IpValidator $validator): self
@@ -55,14 +68,5 @@ class IpValue
     public function value(): string
     {
         return $this->value;
-    }
-
-
-    /**
-     * @return string
-     */
-    public function __toString(): string
-    {
-        return $this->value();
     }
 }

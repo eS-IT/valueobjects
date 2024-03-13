@@ -1,10 +1,12 @@
 <?php
 
 /**
- * @package   valueobjects
  * @since     06.08.2022 - 10:21
+ *
  * @author    Patrick Froch <info@easySolutionsIT.de>
+ *
  * @see       http://easySolutionsIT.de
+ *
  * @copyright e@sy Solutions IT 2022
  * @license   LGPL
  */
@@ -35,9 +37,11 @@ class UrlFactory
 
     /**
      * Erzeugt aus einem String ein Isbn13-ValueObject.
+     *
      * @param string $value
      * @param bool   $forceSchema
      * @param string $schema
+     *
      * @return UrlValue
      */
     public function createFromString(string $value, bool $forceSchema = false, string $schema = ''): UrlValue

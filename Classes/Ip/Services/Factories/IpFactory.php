@@ -1,10 +1,12 @@
 <?php
 
 /**
- * @package   valueobjects
  * @since     09.08.2022 - 10:37
+ *
  * @author    Patrick Froch <info@easySolutionsIT.de>
+ *
  * @see       http://easySolutionsIT.de
+ *
  * @copyright e@sy Solutions IT 2022
  * @license   LGPL
  */
@@ -34,7 +36,8 @@ class IpFactory
 
 
     /**
-     * @param  string $value
+     * @param string $value
+     *
      * @return IpValue
      */
     public function createFromString(string $value): IpValue

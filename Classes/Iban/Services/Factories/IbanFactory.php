@@ -1,11 +1,14 @@
 <?php
 
 /**
- * @package     valueobjects
  * @version     1.0.0
+ *
  * @since       18.09.22 - 16:55
+ *
  * @author      Patrick Froch <info@easySolutionsIT.de>
+ *
  * @see         http://easySolutionsIT.de
+ *
  * @copyright   e@sy Solutions IT 2022
  * @license     EULA
  */
@@ -46,7 +49,9 @@ class IbanFactory
     /**
      * Erzeugt aus einem String ein Iban-Objekt.
      * Es spielt keine Rolle, ob der String Leerzeichen zur Gruppierung der Zahlen enthält.
+     *
      * @param string $value
+     *
      * @return IbanValue
      */
     public function createFromString(string $value): IbanValue

@@ -1,10 +1,12 @@
 <?php
 
 /**
- * @package   valueobjects
  * @since     06.08.2022 - 10:12
+ *
  * @author    Patrick Froch <info@easySolutionsIT.de>
+ *
  * @see       http://easySolutionsIT.de
+ *
  * @copyright e@sy Solutions IT 2022
  * @license   LGPL
  */
@@ -34,9 +36,20 @@ class Isbn13Value implements \Stringable
 
 
     /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->value();
+    }
+
+
+    /**
      * Erzeugt aus einem String ein Isbn13Value-Objekt.
+     *
      * @param string        $value
      * @param IsbnValidator $validator
+     *
      * @return self
      */
     public static function fromString(string $value, IsbnValidator $validator): self
@@ -55,14 +68,5 @@ class Isbn13Value implements \Stringable
     public function value(): string
     {
         return $this->value;
-    }
-
-
-    /**
-     * @return string
-     */
-    public function __toString(): string
-    {
-        return $this->value();
     }
 }

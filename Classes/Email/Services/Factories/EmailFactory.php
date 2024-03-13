@@ -1,10 +1,12 @@
 <?php
 
 /**
- * @package   valueobjects
  * @since     08.08.2022 - 15:47
+ *
  * @author    Patrick Froch <info@easySolutionsIT.de>
+ *
  * @see       http://easySolutionsIT.de
+ *
  * @copyright e@sy Solutions IT 2022
  * @license   LGPL
  */
@@ -35,7 +37,9 @@ class EmailFactory
 
     /**
      * Erstellt aus einem String ein E-Mail-Objekt.
-     * @param  string $value
+     *
+     * @param string $value
+     *
      * @return EmailValue
      */
     public function createFromString(string $value): EmailValue

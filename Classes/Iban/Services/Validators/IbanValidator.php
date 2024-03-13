@@ -1,10 +1,12 @@
 <?php
 
 /**
- * @package   valueobjects
  * @since     09.08.2022 - 09:38
+ *
  * @author    Patrick Froch <info@easySolutionsIT.de>
+ *
  * @see       http://easySolutionsIT.de
+ *
  * @copyright e@sy Solutions IT 2022
  * @license   LGPL
  */
@@ -19,6 +21,7 @@ class IbanValidator
 {
     /**
      * Regulärer Ausdruck für die IBAN-Adresse.
+     *
      * @see https://www.regextester.com/115565
      */
     private const RGXP_IP = '/^(?:(?:IT|SM)\d{2}[A-Z]\d{22}|CY\d{2}[A-Z]\d{23}|NL\d{2}[A-Z]{4}\d{10}|LV\d{2}[A-Z]{4}' .
@@ -31,7 +34,9 @@ class IbanValidator
 
     /**
      * Prüft, ob die IBAN valide ist.
-     * @param  string $value
+     *
+     * @param string $value
+     *
      * @return bool
      */
     public function isValid(string $value): bool
@@ -42,7 +47,9 @@ class IbanValidator
 
     /**
      * Prüft, ob die Prüfsumme korrekt ist.
+     *
      * @param string $value
+     *
      * @return bool
      */
     public function isValidChecksum(string $value): bool
@@ -50,7 +57,7 @@ class IbanValidator
         $number = \substr($value, 4);
         $number .= $this->getCountryCode($value) . '00';
         $rest   = \bcmod($number, '97');
-        $rest   = 98 - (int)$rest;
+        $rest   = 98 - (int) $rest;
 
         return $rest === $this->getChecksum($value);
     }
@@ -58,12 +65,14 @@ class IbanValidator
 
     /**
      * Gibt die Prüfsumme der IBAN zurück.
+     *
      * @param string $value
+     *
      * @return int
      */
     public function getChecksum(string $value): int
     {
-        return (int)\substr($value, 2, 2);
+        return (int) \substr($value, 2, 2);
     }
 
 
@@ -71,7 +80,9 @@ class IbanValidator
      * Gibt den Ländercode zurück.
      * Der Ländercode entspricht der Position des Buchstabens im Aphabet,
      * wobei A bei 10 startet, B ist dann 11, C ist 12, usw.
+     *
      * @param string $value
+     *
      * @return int
      */
     public function getCountryCode(string $value): int
@@ -84,6 +95,6 @@ class IbanValidator
         $code = \ord($value[0]) - 55;
         $code .= \ord($value[1]) - 55;
 
-        return (int)$code;
+        return (int) $code;
     }
 }

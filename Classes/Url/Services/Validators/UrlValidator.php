@@ -1,10 +1,12 @@
 <?php
 
 /**
- * @package   valueobjects
  * @since     08.08.2022 - 10:53
+ *
  * @author    Patrick Froch <info@easySolutionsIT.de>
+ *
  * @see       http://easySolutionsIT.de
+ *
  * @copyright e@sy Solutions IT 2022
  * @license   LGPL
  */
@@ -18,7 +20,9 @@ class UrlValidator
     /**
      * Regulärer Ausdruck für die Url.
      * Orginal:
+     *
      * @see    https://gist.github.com/dperini/729294
+     *
      * @author Diego Perini (http://www.iport.it)
      */
     private const RGXP_URL = '/^(?:(?:(?:<schemas>):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)' .
@@ -30,6 +34,7 @@ class UrlValidator
 
     /**
      * Erlaubte Schemata für die Url.
+     *
      * @var string
      */
     private string $schemas = 'https?|ftp|ssh|sftp|smb';
@@ -37,9 +42,11 @@ class UrlValidator
 
     /**
      * Prüft, ob der übergebene String eine valide Url ist.
+     *
      * @param string $value
      * @param bool   $forceSchema
      * @param string $schema
+     *
      * @return bool
      */
     public function isValid(string $value, bool $forceSchema = false, string $schema = ''): bool

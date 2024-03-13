@@ -1,10 +1,12 @@
 <?php
 
 /**
- * @package   valueobjects
  * @since     08.08.2022 - 15:49
+ *
  * @author    Patrick Froch <info@easySolutionsIT.de>
+ *
  * @see       http://easySolutionsIT.de
+ *
  * @copyright e@sy Solutions IT 2022
  * @license   LGPL
  */
@@ -34,9 +36,20 @@ class EmailValue
 
 
     /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->value();
+    }
+
+
+    /**
      * Erzeugt aus einem String ein EmailValue-Objekt.
+     *
      * @param string         $value
      * @param EmailValidator $validator
+     *
      * @return self
      */
     public static function fromString(string $value, EmailValidator $validator): self
@@ -55,14 +68,5 @@ class EmailValue
     public function value(): string
     {
         return $this->value;
-    }
-
-
-    /**
-     * @return string
-     */
-    public function __toString(): string
-    {
-        return $this->value();
     }
 }

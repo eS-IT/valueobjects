@@ -1,10 +1,12 @@
 <?php
 
 /**
- * @package   valueobjects
  * @since     21.07.22 - 17:32
+ *
  * @author    Patrick Froch <info@easySolutionsIT.de>
+ *
  * @see       http://easySolutionsIT.de
+ *
  * @copyright e@sy Solutions IT 2022
  * @license   LGPL
  */
@@ -13,8 +15,8 @@ declare(strict_types=1);
 
 namespace Esit\Valueobjects\Classes\Money\Services\Factories;
 
-use Esit\Valueobjects\Classes\Money\Services\Converter\MoneyConverter;
 use Esit\Valueobjects\Classes\Money\Services\Calculator\MoneyCalculator;
+use Esit\Valueobjects\Classes\Money\Services\Converter\MoneyConverter;
 use Esit\Valueobjects\Classes\Money\Services\Validators\MoneyValidator;
 use Esit\Valueobjects\Classes\Money\Valueobjects\MoneyValue;
 
@@ -40,6 +42,7 @@ class MoneyFactory
 
     /**
      * MoneyFactory constructor.
+     *
      * @param MoneyConverter  $converter
      * @param MoneyValidator  $validator
      * @param MoneyCalculator $calculator
@@ -54,10 +57,12 @@ class MoneyFactory
 
     /**
      * Erstellt aus einem String mit zwei Nachkommastellen ein MoneyValue-Objekt.
+     *
      * @param string $value
      * @param string $separator
      * @param string $decimal
      * @param int    $decimalPlaces
+     *
      * @return MoneyValue
      */
     public function createFromString(
@@ -80,8 +85,10 @@ class MoneyFactory
 
     /**
      * Erstellt aus einem Centbetrag ein MoneyValue-Objekt.
+     *
      * @param int $value
      * @param int $decimalPlaces
+     *
      * @return MoneyValue
      */
     public function createFromInt(int $value, int $decimalPlaces = 2): MoneyValue
