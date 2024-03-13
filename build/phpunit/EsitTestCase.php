@@ -17,7 +17,6 @@ namespace Esit\Valueobjects;
 
 use Contao\TestCase\ContaoTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Runner\Version;
 
 /**
  * Class EsitTestCase
@@ -72,11 +71,7 @@ class EsitTestCase extends ContaoTestCase
                ->with(
                    $this->callback(
                        function(... $param) use ($matcher, $expected) {
-                           if (10 < Version::majorVersionNumber()) {
-                               $count = $matcher->getInvocationCount() - 1;
-                           } else {
-                               $count = $matcher->numberOfInvocations() - 1;
-                           }
+                           $count = $matcher->getInvocationCount() - 1;
 
                            foreach ($param as $i => $v) {
 
@@ -111,11 +106,7 @@ class EsitTestCase extends ContaoTestCase
                ->with(
                    $this->callback(
                        function(... $param) use ($matcher, $expected) {
-                           if (10 < Version::majorVersionNumber()) {
-                               $count = $matcher->getInvocationCount() - 1;
-                           } else {
-                               $count = $matcher->numberOfInvocations() - 1;
-                           }
+                           $count = $matcher->getInvocationCount() - 1;
 
                            foreach ($param as $i => $v) {
 
@@ -155,12 +146,7 @@ class EsitTestCase extends ContaoTestCase
                ->with(
                    $this->callback(
                        function(... $param) use ($matcher, $expected) {
-var_dump(Version::majorVersionNumber());
-                           if (10 < Version::majorVersionNumber()) {
-                               $count = $matcher->getInvocationCount() - 1;
-                           } else {
-                               $count = $matcher->numberOfInvocations() - 1;
-                           }
+                           $count = $matcher->getInvocationCount() - 1;
 
                            foreach ($param as $i => $v) {
 
