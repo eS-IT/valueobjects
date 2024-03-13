@@ -17,6 +17,7 @@ namespace Esit\Valueobjects;
 
 use Contao\TestCase\ContaoTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Runner\Version;
 
 /**
  * Class EsitTestCase
@@ -71,7 +72,11 @@ class EsitTestCase extends ContaoTestCase
                ->with(
                    $this->callback(
                        function(... $param) use ($matcher, $expected) {
-                           $count = $matcher->numberOfInvocations() - 1;
+                           if (9 === Version::majorVersionNumber()) {
+                               $count = $matcher->getInvocationCount() - 1;
+                           } else {
+                               $count = $matcher->numberOfInvocations() - 1;
+                           }
 
                            foreach ($param as $i => $v) {
 
