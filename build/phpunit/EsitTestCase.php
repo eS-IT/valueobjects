@@ -72,8 +72,7 @@ class EsitTestCase extends ContaoTestCase
                ->with(
                    $this->callback(
                        function(... $param) use ($matcher, $expected) {
-var_dump(Version::majorVersionNumber());
-                           if (9 === Version::majorVersionNumber()) {
+                           if (10 < Version::majorVersionNumber()) {
                                $count = $matcher->getInvocationCount() - 1;
                            } else {
                                $count = $matcher->numberOfInvocations() - 1;
@@ -112,7 +111,11 @@ var_dump(Version::majorVersionNumber());
                ->with(
                    $this->callback(
                        function(... $param) use ($matcher, $expected) {
-                           $count = $matcher->numberOfInvocations() - 1;
+                           if (10 < Version::majorVersionNumber()) {
+                               $count = $matcher->getInvocationCount() - 1;
+                           } else {
+                               $count = $matcher->numberOfInvocations() - 1;
+                           }
 
                            foreach ($param as $i => $v) {
 
@@ -152,7 +155,12 @@ var_dump(Version::majorVersionNumber());
                ->with(
                    $this->callback(
                        function(... $param) use ($matcher, $expected) {
-                           $count = $matcher->numberOfInvocations() - 1;
+var_dump(Version::majorVersionNumber());
+                           if (10 < Version::majorVersionNumber()) {
+                               $count = $matcher->getInvocationCount() - 1;
+                           } else {
+                               $count = $matcher->numberOfInvocations() - 1;
+                           }
 
                            foreach ($param as $i => $v) {
 
