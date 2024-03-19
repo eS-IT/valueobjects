@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @since       11.03.2024 - 11:09
+ * @since       11.03.2024 - 13:15
  *
  * @author      Patrick Froch <info@easySolutionsIT.de>
  *
@@ -15,78 +15,84 @@ declare(strict_types=1);
 
 namespace Esit\Valueobjects\Classes\Duration\Services\Converter;
 
-use Esit\Valueobjects\Classes\Duration\Valueobjects\DurationValue;
-use Esit\Valueobjects\Classes\Duration\Valueobjects\HourValue;
-use Esit\Valueobjects\Classes\Duration\Valueobjects\MinuteValue;
-use Esit\Valueobjects\Classes\Duration\Valueobjects\SecondValue;
+use Esit\Valueobjects\Classes\Duration\Services\Calculators\DurationCalculator;
 
 class DurationConverter
 {
 
 
     /**
-     * Konvertiert ein Hours-Objekt in einen String.
-     *
-     * @param HourValue $time
-     *
-     * @return string
+     * @param DurationCalculator $calculator
      */
-    public function convertToFormatedHours(HourValue $time): string
+    public function __construct(private readonly DurationCalculator $calculator)
     {
-        $hours   = $time->count();
-
-        return $hours < 10 ? "0$hours" : (string) $hours;
     }
 
 
     /**
-     * Konvertiert ein Minutes-Objekt in einen String.
+     * Gibt die Anzahl einer Einheit (z. B. Minuten, Stunden, Tage, usw.)
+     * OHNE dem Anteil aller übergeordneten Einheiten zurück.
+     * (Beipsiel: bei 26 Stunden, werden 2 Stunden zurückgegeben, der der Rest 1 Tag ergbit.)
      *
-     * @param MinuteValue $time
+     * @param int $time
+     * @param int $conversionFactor
+     * @param int $conversionFactorParentUnit
      *
-     * @return string
+     * @return int
      */
-    public function convertToFormatedMinutes(MinuteValue $time): string
+    public function getCountOfUnit(int $time, int $conversionFactor, int $conversionFactorParentUnit): int
     {
-        $minutes = $time->count();
+        $secondsOfParentUnit    = $this->getSecondsOfUnit($time, $conversionFactorParentUnit);
+        $time                   = $this->calculator->subtract($time, $secondsOfParentUnit);
 
-        return $minutes < 10 ? "0$minutes" : (string) $minutes;
+        return $this->getTotalAmountOfUnit($time, $conversionFactor);
     }
 
 
     /**
-     * Konvertiert ein Seconds-Objekt in einen String.
+     * Gibt die Gesamtzahl einer Einheit (z. B. Minuten, Stunden, Tage, usw.)
+     * MIT dem Anteil aller übergeordneten Einheiten zurück.
+     * (Beipsiel: 26 Stunden, statt 1 Tag, 2 Stunden)
      *
-     * @param SecondValue $time
+     * @param int $time
+     * @param int $conversionFactor
      *
-     * @return string
+     * @return int
      */
-    public function convertToFormatedSeconds(SecondValue $time): string
+    public function getTotalAmountOfUnit(int $time, int $conversionFactor): int
     {
-        $seconds = $time->value();
+        $time = $this->getSecondsOfUnit($time, $conversionFactor);
 
-        return $seconds < 10 ? "0$seconds" : (string) $seconds;
+        return (int) $this->calculator->divide($time, $conversionFactor);
     }
 
 
     /**
-     * Konvertiert die Objekte in einen Zeitstring für die Ausgabe.
+     * Gibt die Anzahl einer Einheit (z. B. Minuten, Stunden, Tage, usw.) ohne den Dezimalteil an.
      *
-     * @param DurationValue $time
-     * @param string        $format
+     * @param int $time
+     * @param int $conversionFactor
      *
-     * @return string
+     * @return int
      */
-    public function convertToFormatedString(DurationValue $time, string $format, string $prefix = '-'): string
+    public function getSecondsOfUnit(int $time, int $conversionFactor): int
     {
-        $search     = ['H', 'i', 's'];
-        $prefix     = $time->isNegativ() ? $prefix : '';
-        $replace    = [
-            $this->convertToFormatedHours($time->getHoursValue()),
-            $this->convertToFormatedMinutes($time->getMinutesValue()),
-            $this->convertToFormatedSeconds($time->getSecondsValue())
-        ];
+        $rest = $this->getRestOfUnit($time, $conversionFactor);
 
-        return $prefix . \str_replace($search, $replace, $format);
+        return $this->calculator->subtract($time, $rest);
+    }
+
+
+    /**
+     * Gibt den Dezimalanteil einer Einheit (z. B. Minuten, Stunden, Tage, usw.) zurück.
+     *
+     * @param int $time
+     * @param int $conversionFactor
+     *
+     * @return int
+     */
+    public function getRestOfUnit(int $time, int $conversionFactor): int
+    {
+        return $this->calculator->modulo($time, $conversionFactor);
     }
 }

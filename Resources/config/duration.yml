@@ -10,4 +10,8 @@ services:
 
     Esit\Valueobjects\Classes\Duration\Services\Factories\DurationFactory: ~
 
-    Esit\Valueobjects\Classes\Duration\Services\Helper\DurationDivider: ~
+    Esit\Valueobjects\Classes\Duration\Services\Helper\DurationConverterHelper: ~
+
+    Esit\Valueobjects\Classes\Duration\Services\Helper\DurationParserHelper: ~
+
+    Esit\Valueobjects\Classes\Duration\Services\Parser\DurationParser: ~

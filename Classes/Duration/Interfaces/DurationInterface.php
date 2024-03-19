@@ -15,12 +15,15 @@ declare(strict_types=1);
 
 namespace Esit\Valueobjects\Classes\Duration\Interfaces;
 
-interface FormatableInterface
+interface DurationInterface
 {
 
 
     public function value(): int;
 
 
-    public function parse(): string;
+    public function isNegativ(): bool;
+
+
+    public function parse(string $format, string $prefix = ''): string;
 }

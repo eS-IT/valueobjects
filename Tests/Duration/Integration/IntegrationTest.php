@@ -14,23 +14,37 @@ declare(strict_types=1);
 namespace Duration\Integration;
 
 use Esit\Valueobjects\Classes\Duration\Services\Calculators\DurationCalculator;
-use Esit\Valueobjects\Classes\Duration\Services\Converter\DurationConverter;
+use Esit\Valueobjects\Classes\Duration\Services\Helper\DurationConverterHelper;
+use Esit\Valueobjects\Classes\Duration\Services\Helper\DurationParserHelper;
+use Esit\Valueobjects\Classes\Duration\Services\Parser\DurationParser;
 use Esit\Valueobjects\Classes\Duration\Services\Factories\DurationFactory;
-use Esit\Valueobjects\Classes\Duration\Services\Helper\DurationDivider;
+use Esit\Valueobjects\Classes\Duration\Services\Converter\DurationConverter;
 use PHPUnit\Framework\TestCase;
 
 class IntegrationTest extends TestCase
 {
 
-    private DurationFactory $factory;
+
+    /**
+     * @var string
+     */
+    private string $format = 'H:i:s';
+
+
+    /**
+     * @var DurationFactory
+     */
+   private DurationFactory $factory;
 
 
     protected function setUp(): void
     {
-        $calculator     = new DurationCalculator();
-        $converter      = new DurationConverter();
-        $divider        = new DurationDivider($calculator);
-        $this->factory  = new DurationFactory($calculator, $converter, $divider);
+        $calculator         = new DurationCalculator();
+        $converter          = new DurationConverter($calculator);
+        $converterHelper    = new DurationConverterHelper($calculator, $converter);
+        $parserHelper       = new DurationParserHelper($converterHelper);
+        $parser             = new DurationParser($parserHelper);
+        $this->factory      = new DurationFactory($calculator, $parser);
     }
 
 
@@ -39,7 +53,7 @@ class IntegrationTest extends TestCase
         $time   = 45296; // 12 Stunden, 34 Minuten, 56 Sekunden
         $value  = $this->factory->createDurationFromInt($time);
 
-        $this->assertSame("12:34:56", $value->parse());
+        $this->assertSame("12:34:56", $value->parse($this->format));
     }
 
 
@@ -48,11 +62,11 @@ class IntegrationTest extends TestCase
         $time   = 45296 * -1; // 12 Stunden, 34 Minuten, 56 Sekunden
         $value  = $this->factory->createDurationFromInt($time);
 
-        $this->assertSame("-12:34:56", $value->parse());
+        $this->assertSame("-12:34:56", $value->parse($this->format));
     }
 
 
-    public function testGetFormatedWithIndividualForma(): void
+    public function testGetFormatedWithIndividualPrefix(): void
     {
         $time   = 45296 * -1; // 12 Stunden, 34 Minuten, 56 Sekunden
         $value  = $this->factory->createDurationFromInt($time);
@@ -68,7 +82,7 @@ class IntegrationTest extends TestCase
         $valueTwo   = $this->factory->createDurationFromInt($time);
         $value      = $valueOne->add($valueTwo);
 
-        $this->assertSame("25:09:52", $value->parse());
+        $this->assertSame("25:09:52", $value->parse($this->format));
     }
 
 
@@ -79,7 +93,7 @@ class IntegrationTest extends TestCase
         $valueTwo   = $this->factory->createDurationFromInt($time);
         $value      = $valueOne->subtract($valueTwo);
 
-        $this->assertSame("00:00:00", $value->parse());
+        $this->assertSame("00:00:00", $value->parse($this->format));
     }
 
 
@@ -90,7 +104,7 @@ class IntegrationTest extends TestCase
         $operand    = 2;
         $value      = $valueOne->multiply($operand);
 
-        $this->assertSame("25:09:52", $value->parse());
+        $this->assertSame("25:09:52", $value->parse($this->format));
     }
 
 
@@ -101,7 +115,7 @@ class IntegrationTest extends TestCase
         $operand    = 2;
         $value      = $valueOne->divide($operand);
 
-        $this->assertSame("06:17:28", $value->parse());
+        $this->assertSame("06:17:28", $value->parse($this->format));
     }
 
 
@@ -113,7 +127,7 @@ class IntegrationTest extends TestCase
         $value      = $valueOne->multiply($operand);
         $value      = $value->divide($operand);
 
-        $this->assertSame($valueOne->parse(), $value->parse());
+        $this->assertSame($valueOne->parse($this->format), $value->parse($this->format));
     }
 
 
@@ -125,41 +139,6 @@ class IntegrationTest extends TestCase
         $value      = $valueOne->add($valueTwo);
         $value      = $value->subtract($valueTwo);
 
-        $this->assertSame($valueOne->parse(), $value->parse());
-    }
-
-
-    public function testHour(): void
-    {
-        $time   = 45296; // 12 Stunden, 34 Minuten, 56 Sekunden
-        $value  = $this->factory->createDurationFromInt($time);
-        $hours  = $value->getHoursValue();
-
-        $this->assertSame(12, $hours->count());
-        $this->assertSame(12 * 3600, $hours->value());
-        $this->assertSame("12", $hours->parse());
-    }
-
-
-    public function testMinutes(): void
-    {
-        $time       = 45296; // 12 Stunden, 34 Minuten, 56 Sekunden
-        $value      = $this->factory->createDurationFromInt($time);
-        $minutes    = $value->getMinutesValue();
-
-        $this->assertSame(34, $minutes->count());
-        $this->assertSame(34 * 60, $minutes->value());
-        $this->assertSame("34", $minutes->parse());
-    }
-
-
-    public function testSconds(): void
-    {
-        $time       = 45296; // 12 Stunden, 34 Minuten, 56 Sekunden
-        $value      = $this->factory->createDurationFromInt($time);
-        $seconds    = $value->getSecondsValue();
-
-        $this->assertSame(56, $seconds->value());
-        $this->assertSame("56", $seconds->parse());
+        $this->assertSame($valueOne->parse($this->format), $value->parse($this->format));
     }
 }

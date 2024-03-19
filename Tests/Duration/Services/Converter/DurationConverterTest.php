@@ -2,7 +2,7 @@
 
 /**
  * @package     valueobjects
- * @since       12.03.2024 - 12:54
+ * @since       12.03.2024 - 14:06
  * @author      Patrick Froch <info@easySolutionsIT.de>
  * @see         http://easySolutionsIT.de
  * @copyright   e@sy Solutions IT 2024
@@ -13,168 +13,154 @@ declare(strict_types=1);
 
 namespace Esit\Valueobjects\Tests\Duration\Services\Converter;
 
+use Esit\Valueobjects\Classes\Duration\Library\ConversionFactors;
+use Esit\Valueobjects\Classes\Duration\Services\Calculators\DurationCalculator;
 use Esit\Valueobjects\Classes\Duration\Services\Converter\DurationConverter;
-use Esit\Valueobjects\Classes\Duration\Valueobjects\DurationValue;
-use Esit\Valueobjects\Classes\Duration\Valueobjects\HourValue;
-use Esit\Valueobjects\Classes\Duration\Valueobjects\MinuteValue;
-use Esit\Valueobjects\Classes\Duration\Valueobjects\SecondValue;
-use PHPUnit\Framework\TestCase;
+use Esit\Valueobjects\EsitTestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
-class DurationConverterTest extends TestCase
+class DurationConverterTest extends EsitTestCase
 {
 
+
+    /**
+     * @var (DurationCalculator&MockObject)|MockObject
+     */
+    private $calculator;
+
+
+    /**
+     * @var int
+     */
+    private int $time;
+
+
+    /**
+     * @var DurationConverter
+     */
     private DurationConverter $converter;
 
 
     protected function setUp(): void
     {
-        $this->converter = new DurationConverter();
+        $this->calculator   = $this->getMockBuilder(DurationCalculator::class)
+                                   ->disableOriginalConstructor()
+                                   ->getMock();
+
+        $this->time         = \time();
+        $this->converter    = new DurationConverter($this->calculator);
+    }
+
+    public function testGetCountOfUnit(): void
+    {
+        $time                       = 3725;
+        $rest                       = 5;
+        $timeOfMinutes              = 120;
+        $timeOfHour                 = 3600;
+        $restOfHour                 = $time - $timeOfHour;
+        $secOfUnit                  = $time - $rest;
+        $conversionFactor           = ConversionFactors::SECONDS_PER_MINUTE;
+        $conversionFactorParentUnit = ConversionFactors::SECONDS_PER_HOUR;
+        $secondsOfParentUnit        = (int) ($secOfUnit / $conversionFactor);
+        $expected                   = 2;
+
+        $this->addConsecutiveReturn(
+            $this->calculator,
+            'modulo',
+            [$restOfHour, $rest],
+            [
+                [$time, $timeOfHour],
+                [$restOfHour, $conversionFactor]
+            ]
+        );
+
+        $this->addConsecutiveReturn(
+            $this->calculator,
+            'subtract',
+            [$timeOfHour, $restOfHour, $timeOfMinutes],
+            [
+                [$time, $restOfHour],
+                [$time, $timeOfHour],
+                [$restOfHour, $rest]
+            ]
+        );
+
+        $this->calculator->expects(self::once())
+                         ->method('divide')
+                         ->with($timeOfMinutes, $conversionFactor)
+                         ->willReturn($expected);
+
+        $rtn = $this->converter->getCountOfUnit($time, $conversionFactor, $conversionFactorParentUnit);
+
+        $this->assertSame($expected, $rtn);
     }
 
 
-    public function testConvertToFormatedHoursReturnUnmodifiedHoursIfHoursIsGreaterThenTen(): void
+    public function testGetTotalAmountOfUnit(): void
     {
-        $time   = 12;
+        $time               = 125;
+        $rest               = 5;
+        $secOfUnit          = $time - $rest;
+        $conversionFactor   = ConversionFactors::SECONDS_PER_MINUTE;
+        $expected           = (int) ($secOfUnit / $conversionFactor);
 
-        $hour   = $this->getMockBuilder(HourValue::class)
-                       ->disableOriginalConstructor()
-                       ->getMock();
+            $this->calculator->expects(self::once())
+                         ->method('modulo')
+                         ->with($time, $conversionFactor)
+                         ->willReturn($rest);
 
-        $hour->expects(self::once())
-             ->method('count')
-             ->willReturn($time);
+        $this->calculator->expects(self::once())
+                         ->method('subtract')
+                         ->with($time, $rest)
+                         ->willReturn($secOfUnit);
 
-        $this->assertSame((string)$time, $this->converter->convertToFormatedHours($hour));
+        $this->calculator->expects(self::once())
+                         ->method('divide')
+                         ->with($secOfUnit, $conversionFactor)
+                         ->willReturn($expected);
+
+        $rtn = $this->converter->getTotalAmountOfUnit($time, $conversionFactor);
+
+        $this->assertSame($expected, $rtn);
     }
 
 
-    public function testConvertToFormatedHoursAddZeroIfHoursIslessThenTen(): void
+    public function testGetSecondsOfUnit(): void
     {
-        $time   = 8;
+        $time               = 125;
+        $rest               = 5;
+        $expected           = $time - $rest;
+        $conversionFactor   = ConversionFactors::SECONDS_PER_MINUTE;
 
-        $hour   = $this->getMockBuilder(HourValue::class)
-                       ->disableOriginalConstructor()
-                       ->getMock();
+        $this->calculator->expects(self::once())
+                         ->method('modulo')
+                         ->with($time, $conversionFactor)
+                         ->willReturn($rest);
 
-        $hour->expects(self::once())
-             ->method('count')
-             ->willReturn($time);
+        $this->calculator->expects(self::once())
+                         ->method('subtract')
+                         ->with($time, $rest)
+                         ->willReturn($expected);
 
-        $this->assertSame("0$time", $this->converter->convertToFormatedHours($hour));
+        $rtn = $this->converter->getSecondsOfUnit($time, $conversionFactor);
+
+        $this->assertSame($expected, $rtn);
     }
 
 
-    public function testConvertToFormatedMinutesReturnUnmodifiedMinutesIfMinutesIsGreaterThenTen(): void
+    public function testGetRestOfUnit(): void
     {
-        $time   = 12;
+        $time               = 125;
+        $conversionFactor   = ConversionFactors::SECONDS_PER_MINUTE;
+        $expected           = 5;
 
-        $minute = $this->getMockBuilder(MinuteValue::class)
-                       ->disableOriginalConstructor()
-                       ->getMock();
+        $this->calculator->expects(self::once())
+                         ->method('modulo')
+                         ->with($time, $conversionFactor)
+                         ->willReturn($expected);
 
-        $minute->expects(self::once())
-               ->method('count')
-               ->willReturn($time);
+        $rtn = $this->converter->getRestOfUnit($time, $conversionFactor);
 
-        $this->assertSame((string)$time, $this->converter->convertToFormatedMinutes($minute));
-    }
-
-
-    public function testConvertToFormatedMinutesReturnUnmodifiedMinutesIfMinutesIsLessThenTen(): void
-    {
-        $time   = 8;
-
-        $minute = $this->getMockBuilder(MinuteValue::class)
-                       ->disableOriginalConstructor()
-                       ->getMock();
-
-        $minute->expects(self::once())
-               ->method('count')
-               ->willReturn($time);
-
-        $this->assertSame("0$time", $this->converter->convertToFormatedMinutes($minute));
-    }
-
-
-    public function testConvertToFormatedSecondsReturnUnmodifiedSecondsIfSecondsIsGreaterThenTen(): void
-    {
-        $time       = 12;
-
-        $seconds    = $this->getMockBuilder(SecondValue::class)
-                           ->disableOriginalConstructor()
-                           ->getMock();
-
-        $seconds->expects(self::once())
-                ->method('value')
-                ->willReturn($time);
-
-        $this->assertSame((string)$time, $this->converter->convertToFormatedSeconds($seconds));
-    }
-
-
-    public function testConvertToFormatedSecondsReturnUnmodifiedSecondsIfSecondsIsLessThenTen(): void
-    {
-        $time       = 8;
-
-        $seconds    = $this->getMockBuilder(SecondValue::class)
-                           ->disableOriginalConstructor()
-                           ->getMock();
-
-        $seconds->expects(self::once())
-                ->method('value')
-                ->willReturn($time);
-
-        $this->assertSame("0$time", $this->converter->convertToFormatedSeconds($seconds));
-    }
-
-
-    public function testConvertToFormatedString(): void
-    {
-        $expected   = 12;
-        $duration   = $this->getMockBuilder(DurationValue::class)
-                           ->disableOriginalConstructor()
-                           ->getMock();
-
-        $hour       = $this->getMockBuilder(HourValue::class)
-                           ->disableOriginalConstructor()
-                           ->getMock();
-
-        $minutes    = $this->getMockBuilder(MinuteValue::class)
-                           ->disableOriginalConstructor()
-                           ->getMock();
-
-        $secondes   = $this->getMockBuilder(SecondValue::class)
-                           ->disableOriginalConstructor()
-                           ->getMock();
-
-        $duration->expects(self::once())
-                 ->method('isNegativ')
-                 ->willReturn(false);
-
-        $duration->expects(self::once())
-                 ->method('getHoursValue')
-                 ->willReturn($hour);
-
-        $duration->expects(self::once())
-                 ->method('getMinutesValue')
-                 ->willReturn($minutes);
-
-        $duration->expects(self::once())
-                 ->method('getSecondsValue')
-                 ->willReturn($secondes);
-
-        $hour->expects(self::once())
-             ->method('count')
-             ->willReturn($expected);
-
-        $minutes->expects(self::once())
-                ->method('count')
-                ->willReturn($expected);
-
-        $secondes->expects(self::once())
-                 ->method('value')
-                 ->willReturn($expected);
-
-        $this->assertSame("12:12:12", $this->converter->convertToFormatedString($duration, 'H:i:s'));
+        $this->assertSame($expected, $rtn);
     }
 }

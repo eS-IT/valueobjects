@@ -15,12 +15,13 @@ declare(strict_types=1);
 
 namespace Esit\Valueobjects\Classes\Duration\Valueobjects;
 
-use Esit\Valueobjects\Classes\Duration\Interfaces\FormatableInterface;
+use Esit\Valueobjects\Classes\Duration\Interfaces\DurationCalculatorInterface;
+use Esit\Valueobjects\Classes\Duration\Interfaces\DurationInterface;
 use Esit\Valueobjects\Classes\Duration\Services\Calculators\DurationCalculator;
-use Esit\Valueobjects\Classes\Duration\Services\Converter\DurationConverter;
 use Esit\Valueobjects\Classes\Duration\Services\Factories\DurationFactory;
+use Esit\Valueobjects\Classes\Duration\Services\Parser\DurationParser;
 
-class DurationValue implements FormatableInterface
+class DurationValue implements DurationInterface, DurationCalculatorInterface
 {
 
 
@@ -38,15 +39,19 @@ class DurationValue implements FormatableInterface
 
     /**
      * @param int                $time
+     * @param string             $format
+     * @param string             $prefix
      * @param DurationFactory    $factory
      * @param DurationCalculator $calculator
-     * @param DurationConverter  $converter
+     * @param DurationParser     $parser
      */
     public function __construct(
         int $time,
+        private readonly string $format,
+        private readonly string $prefix,
         private readonly DurationFactory $factory,
         private readonly DurationCalculator $calculator,
-        private readonly DurationConverter $converter
+        private readonly DurationParser $parser
     ) {
         $this->isNegativ    = $time < 0;
         $this->time         = $this->calculator->getAbsoluteTime($time);
@@ -60,7 +65,7 @@ class DurationValue implements FormatableInterface
      */
     public function __toString(): string
     {
-        return $this->parse();
+        return $this->parse($this->format, $this->prefix);
     }
 
 
@@ -86,49 +91,17 @@ class DurationValue implements FormatableInterface
 
     /**
      * Gibt die formatierte Zeit zurück.
-     * (Wrapper für Converter)
      *
-     * @param string $format
-     * @param string $prefix
+     * @param string      $format
+     * @param string|null $prefix
      *
      * @return string
      */
-    public function parse(string $format = 'H:i:s', string $prefix = '-'): string
+    public function parse(string $format, ?string $prefix = null): string
     {
-        return $this->converter->convertToFormatedString($this, $format, $prefix);
-    }
+        $prefix = $prefix ?? $this->prefix;
 
-
-    /**
-     * Gibt ein Wertobjekt für die Stunden zurück.
-     *
-     * @return HourValue
-     */
-    public function getHoursValue(): HourValue
-    {
-        return $this->factory->createHourFromInt($this->time);
-    }
-
-
-    /**
-     * Gibt die ganzen Minuten zurück.
-     *
-     * @return MinuteValue
-     */
-    public function getMinutesValue(): MinuteValue
-    {
-        return $this->factory->createMinuteFromInt($this->time);
-    }
-
-
-    /**
-     * Gibt die Anzahl der Sekunden zurück, nach dem Stunden und Minuten abgezoegen wurden.
-     *
-     * @return SecondValue
-     */
-    public function getSecondsValue(): SecondValue
-    {
-        return $this->factory->createSecondFromInt($this->time);
+        return $this->parser->parseString($this, $format, $prefix);
     }
 
 

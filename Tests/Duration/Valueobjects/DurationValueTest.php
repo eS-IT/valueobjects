@@ -14,13 +14,9 @@ declare(strict_types=1);
 namespace Esit\Valueobjects\Tests\Duration\Valueobjects;
 
 use Esit\Valueobjects\Classes\Duration\Services\Calculators\DurationCalculator;
-use Esit\Valueobjects\Classes\Duration\Services\Converter\DurationConverter;
+use Esit\Valueobjects\Classes\Duration\Services\Parser\DurationParser;
 use Esit\Valueobjects\Classes\Duration\Services\Factories\DurationFactory;
-use Esit\Valueobjects\Classes\Duration\Services\Helper\DurationDivider;
 use Esit\Valueobjects\Classes\Duration\Valueobjects\DurationValue;
-use Esit\Valueobjects\Classes\Duration\Valueobjects\HourValue;
-use Esit\Valueobjects\Classes\Duration\Valueobjects\MinuteValue;
-use Esit\Valueobjects\Classes\Duration\Valueobjects\SecondValue;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -35,15 +31,27 @@ class DurationValueTest extends TestCase
 
 
     /**
+     * @var string
+     */
+    private string $format = 'H:i:s';
+
+
+    /**
+     * @var string
+     */
+    private string $prefix = '-';
+
+
+    /**
      * @var DurationCalculator|(DurationCalculator&MockObject)|MockObject
      */
     private DurationCalculator $calculator;
 
 
     /**
-     * @var DurationConverter|(DurationConverter&MockObject)|MockObject
+     * @var DurationParser|(DurationParser&MockObject)|MockObject
      */
-    private DurationConverter $converter;
+    private DurationParser $converter;
 
 
     /**
@@ -60,13 +68,13 @@ class DurationValueTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->time         = \time();
+        $this->time         = 3723;
 
         $this->calculator   = $this->getMockBuilder(DurationCalculator::class)
                                    ->disableOriginalConstructor()
                                    ->getMock();
 
-        $this->converter    = $this->getMockBuilder(DurationConverter::class)
+        $this->converter    = $this->getMockBuilder(DurationParser::class)
                                    ->disableOriginalConstructor()
                                    ->getMock();
 
@@ -77,7 +85,14 @@ class DurationValueTest extends TestCase
         $this->calculator->method('getAbsoluteTime')
                          ->willReturn(\abs($this->time));
 
-        $this->duration = new DurationValue($this->time, $this->factory, $this->calculator, $this->converter);
+        $this->duration = new DurationValue(
+            $this->time,
+            $this->format,
+            $this->prefix,
+            $this->factory,
+            $this->calculator,
+            $this->converter
+        );
     }
 
 
@@ -92,7 +107,7 @@ class DurationValueTest extends TestCase
         $expected = '01:02:03';
 
         $this->converter->expects(self::once())
-                        ->method('convertToFormatedString')
+                        ->method('parseString')
                         ->with($this->duration, 'H:i:s', '-')
                         ->willReturn($expected);
 
@@ -109,7 +124,14 @@ class DurationValueTest extends TestCase
     public function testIsNegativReturnTrueIfTimeIsPositiv(): void
     {
         $time       = \time() * -1;
-        $duration   = new DurationValue($time, $this->factory, $this->calculator, $this->converter);
+        $duration   = new DurationValue(
+            $time,
+            $this->format,
+            $this->prefix,
+            $this->factory,
+            $this->calculator,
+            $this->converter
+        );
         $this->assertTrue($duration->isNegativ());
     }
 
@@ -119,11 +141,11 @@ class DurationValueTest extends TestCase
         $expected = '01:02:03';
 
         $this->converter->expects(self::once())
-                        ->method('convertToFormatedString')
-                        ->with($this->duration, 'H:i:s', '-')
+                        ->method('parseString')
+                        ->with($this->duration, $this->format, '-')
                         ->willReturn($expected);
 
-        $this->assertSame($expected, $this->duration->parse());
+        $this->assertSame($expected, $this->duration->parse($this->format));
     }
 
 
@@ -134,56 +156,11 @@ class DurationValueTest extends TestCase
         $prefix     = '#';
 
         $this->converter->expects(self::once())
-                        ->method('convertToFormatedString')
+                        ->method('parseString')
                         ->with($this->duration, $format, $prefix)
                         ->willReturn($expected);
 
         $this->assertSame($expected, $this->duration->parse($format, $prefix));
-    }
-
-
-    public function testGetHours(): void
-    {
-        $expected = $this->getMockBuilder(HourValue::class)
-                         ->disableOriginalConstructor()
-                         ->getMock();
-
-        $this->factory->expects(self::once())
-                      ->method('createHourFromInt')
-                      ->with($this->time)
-                      ->willReturn($expected);
-
-        $this->assertSame($expected, $this->duration->getHoursValue());
-    }
-
-
-    public function testGetMinutes(): void
-    {
-        $expected = $this->getMockBuilder(MinuteValue::class)
-                         ->disableOriginalConstructor()
-                         ->getMock();
-
-        $this->factory->expects(self::once())
-                      ->method('createMinuteFromInt')
-                      ->with($this->time)
-                      ->willReturn($expected);
-
-        $this->assertSame($expected, $this->duration->getMinutesValue());
-    }
-
-
-    public function testGetSeconds(): void
-    {
-        $expected = $this->getMockBuilder(SecondValue::class)
-                         ->disableOriginalConstructor()
-                         ->getMock();
-
-        $this->factory->expects(self::once())
-                      ->method('createSecondFromInt')
-                      ->with($this->time)
-                      ->willReturn($expected);
-
-        $this->assertSame($expected, $this->duration->getSecondsValue());
     }
 
 
