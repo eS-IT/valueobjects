@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Esit\Valueobjects\Tests\Duration\Services\Parser;
 
 use Esit\Valueobjects\Classes\Duration\Library\DurationFormatParts;
-use Esit\Valueobjects\Classes\Duration\Services\Calculators\DurationCalculator;
 use Esit\Valueobjects\Classes\Duration\Services\Converter\DurationConverter;
 use Esit\Valueobjects\Classes\Duration\Services\Helper\DurationParserHelper;
 use Esit\Valueobjects\Classes\Duration\Services\Parser\DurationParser;
@@ -78,8 +77,8 @@ class DurationParserTest extends EsitTestCase
     public function testParseStringParseAll(): void
     {
         $time       = 60;
-        $format     = 'Y-M-m-W-w-D-d-H-h-I-i-S-s';
-        $expected   = "$time-$time-$time-$time-$time-$time-$time-$time-$time-$time-$time-$time-$time";
+        $format     = 'W-D-d-H-h-I-i-S-s';
+        $expected   = "$time-$time-$time-$time-$time-$time-$time-$time-$time";
 
         $value      = $this->getMockBuilder(DurationValue::class)
                            ->disableOriginalConstructor()
@@ -89,20 +88,20 @@ class DurationParserTest extends EsitTestCase
               ->method('isNegativ')
               ->willReturn(false);
 
-        $value->expects(self::exactly(\count(DurationFormatParts::cases())))
+        $value->expects(self::exactly(9))
               ->method('value')
               ->willReturn($time);
 
         $this->addConsecutiveReturn(
             $this->parserHelper,
             'parseToken',
-            [$time, $time, $time, $time, $time, $time, $time, $time, $time, $time, $time, $time, $time],
+            [$time, $time, $time, $time, $time, $time, $time, $time, $time],
             [
-                [DurationFormatParts::Y, $time],
-                [DurationFormatParts::M, $time],
-                [DurationFormatParts::m, $time],
+                //[DurationFormatParts::Y, $time],
+                //[DurationFormatParts::M, $time],
+                //[DurationFormatParts::m, $time],
                 [DurationFormatParts::W, $time],
-                [DurationFormatParts::w, $time],
+                //[DurationFormatParts::w, $time],
                 [DurationFormatParts::D, $time],
                 [DurationFormatParts::d, $time],
                 [DurationFormatParts::H, $time],

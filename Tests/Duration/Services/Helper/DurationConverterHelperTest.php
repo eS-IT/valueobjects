@@ -65,6 +65,7 @@ class DurationConverterHelperTest extends TestCase
 
     public function testGetTotalYears(): void
     {
+        self::markTestSkipped('Die die Länge eines Montas nicht festgelegt ist, kann dieser Wert nicht pauschal berechnet werden!');
         $this->converter->expects(self::once())
                         ->method('getTotalAmountOfUnit')
                         ->with($this->time, ConversionFactors::SECONDS_PER_YEAR)
@@ -75,6 +76,7 @@ class DurationConverterHelperTest extends TestCase
 
     public function testGetMonthsCount(): void
     {
+        self::markTestSkipped('Die die Länge eines Montas nicht festgelegt ist, kann dieser Wert nicht pauschal berechnet werden!');
         $this->converter->expects(self::once())
                         ->method('getCountOfUnit')
                         ->with($this->time, ConversionFactors::SECONDS_PER_MONTH, ConversionFactors::SECONDS_PER_YEAR)
@@ -85,6 +87,7 @@ class DurationConverterHelperTest extends TestCase
 
     public function testGetTotalMonths(): void
     {
+        self::markTestSkipped('Die die Länge eines Montas nicht festgelegt ist, kann dieser Wert nicht pauschal berechnet werden!');
         $this->converter->expects(self::once())
                         ->method('getTotalAmountOfUnit')
                         ->with($this->time, ConversionFactors::SECONDS_PER_MONTH)
@@ -95,6 +98,7 @@ class DurationConverterHelperTest extends TestCase
 
     public function testGetWeeksCount(): void
     {
+        self::markTestSkipped('Die die Länge eines Montas nicht festgelegt ist, kann dieser Wert nicht pauschal berechnet werden!');
         $this->converter->expects(self::once())
                         ->method('getCountOfUnit')
                         ->with($this->time, ConversionFactors::SECONDS_PER_WEEK, ConversionFactors::SECONDS_PER_MONTH)

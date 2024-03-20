@@ -28,7 +28,7 @@ class IntegrationTest extends TestCase
     /**
      * @var string
      */
-    private string $format = 'H:i:s';
+    private string $format = 'W-d h:i:s';
 
 
     /**
@@ -48,12 +48,59 @@ class IntegrationTest extends TestCase
     }
 
 
-    public function testGetFormated(): void
+    public function testGetFormatedMinutesAndSeconds(): void
     {
-        $time   = 45296; // 12 Stunden, 34 Minuten, 56 Sekunden
+        $time   = 2096; // 34 Minuten, 56 Sekunden
         $value  = $this->factory->createDurationFromInt($time);
 
-        $this->assertSame("12:34:56", $value->parse($this->format));
+        $this->assertSame('00-00 00:34:56', $value->parse($this->format));
+    }
+
+
+    public function testGetFormatedHoursAndMinutes(): void
+    {
+        $time   = 45240; // 12 Stunden, 34 Minuten
+        $value  = $this->factory->createDurationFromInt($time);
+
+        $this->assertSame('00-00 12:34:00', $value->parse($this->format));
+    }
+
+
+    public function testGetFormatedDaysAndHours(): void
+    {
+        $time   = 216000; // 2 Tage, 12 Stunden
+        $value  = $this->factory->createDurationFromInt($time);
+
+        $this->assertSame('00-02 12:00:00', $value->parse($this->format));
+    }
+
+
+    public function testGetFormatedWeeksAndDays(): void
+    {
+        $time   = 1987200; // 3 Wochen, 2 Tage
+        $value  = $this->factory->createDurationFromInt($time);
+
+        $this->assertSame('03-02 00:00:00', $value->parse($this->format));
+    }
+
+
+    public function testGetFormatedMonthAndWeeksAndDays(): void
+    {
+        self::markTestSkipped('Die die Länge eines Montas nicht festgelegt ist, kann dieser Wert nicht pauschal berechnet werden!');
+        $time   = 11491200; // 4 Monate, 3 Wochen, 0 Tage
+        $value  = $this->factory->createDurationFromInt($time);
+
+        $this->assertSame('00-04-03-00 00:00:00', $value->parse($this->format));
+    }
+
+
+    public function testGetFormatedYearsAndMonthAndWeeksAndDays(): void
+    {
+        self::markTestSkipped('Die die Länge eines Montas nicht festgelegt ist, kann dieser Wert nicht pauschal berechnet werden!');
+        $time   = 43027200; // 1 Jahr, 4 Monate, 3 Wochen, 0 Tage
+        $value  = $this->factory->createDurationFromInt($time);
+
+        $this->assertSame('01-04-03-00 00:00:00', $value->parse($this->format));
     }
 
 
@@ -62,7 +109,7 @@ class IntegrationTest extends TestCase
         $time   = 45296 * -1; // 12 Stunden, 34 Minuten, 56 Sekunden
         $value  = $this->factory->createDurationFromInt($time);
 
-        $this->assertSame("-12:34:56", $value->parse($this->format));
+        $this->assertSame('-00-00 12:34:56', $value->parse($this->format));
     }
 
 
@@ -71,7 +118,7 @@ class IntegrationTest extends TestCase
         $time   = 45296 * -1; // 12 Stunden, 34 Minuten, 56 Sekunden
         $value  = $this->factory->createDurationFromInt($time);
 
-        $this->assertSame("=>56:12:34", $value->parse('s:H:i', '=>'));
+        $this->assertSame('=>56:12:34', $value->parse('s:H:i', '=>'));
     }
 
 
@@ -82,7 +129,7 @@ class IntegrationTest extends TestCase
         $valueTwo   = $this->factory->createDurationFromInt($time);
         $value      = $valueOne->add($valueTwo);
 
-        $this->assertSame("25:09:52", $value->parse($this->format));
+        $this->assertSame('25:09:52', $value->parse('H:i:s'));
     }
 
 
@@ -93,7 +140,7 @@ class IntegrationTest extends TestCase
         $valueTwo   = $this->factory->createDurationFromInt($time);
         $value      = $valueOne->subtract($valueTwo);
 
-        $this->assertSame("00:00:00", $value->parse($this->format));
+        $this->assertSame('00-00 00:00:00', $value->parse($this->format));
     }
 
 
@@ -104,7 +151,7 @@ class IntegrationTest extends TestCase
         $operand    = 2;
         $value      = $valueOne->multiply($operand);
 
-        $this->assertSame("25:09:52", $value->parse($this->format));
+        $this->assertSame('25:09:52', $value->parse('H:i:s'));
     }
 
 
@@ -115,7 +162,7 @@ class IntegrationTest extends TestCase
         $operand    = 2;
         $value      = $valueOne->divide($operand);
 
-        $this->assertSame("06:17:28", $value->parse($this->format));
+        $this->assertSame('00-00 06:17:28', $value->parse($this->format));
     }
 
 

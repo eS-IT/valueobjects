@@ -99,6 +99,22 @@ class myClass
 }
 ```
 
+| Token   | Bendeutung                | Beispiel                                                                                             |
+|---------|---------------------------|------------------------------------------------------------------------------------------------------|
+| `s`     | Rest der Sekunden         | Bei 62 Sekunden wird ein Rest von 2 zurückgegeben, da die eine Minute nicht enthalten ist.           |
+| `S`     | Gesamtzahl der Sekunden   | Bei 62 Sekunden wird 62 zurückgegeben, da die eine Minute enthalten ist.                             |
+| `i`     | Rest der Minuten          | Bei 62 Minuten wird ein Rest von 2 zurückgegeben, da die eine Stunde nicht enthalten ist.            |
+| `I`     | Gesamtzahl der Minuten    | Bei 62 Minuten wird 62 zurückgegeben, da die eine Stunden enthalten ist.                             |
+| `h`     | Rest der Stunden          | Bei 26 Stunden wird ein Rest von 2 zurückgegeben, da der eine Tag nicht enthalten ist.               |
+| `H`     | Gesamtzahl der Stunden    | Bei 26 Stunden wird 26 zurückgegeben, da der eine Tag enthalten ist.                                 |
+| `d`     | Rest der Tage             | Bei 9 Tagen wird ein Rest von 2 zurückgegeben, da die eine Woche nicht enthalten ist.                |
+| `D`     | Gesamtzahl der Tage       | Bei 9 Tagen wird 9 zurückgegeben, da die eine Woche enthalten ist.                                   |
+| ~~`w`~~ | ~~Rest der Wochen~~       | _Da die Länge eines Montas nicht festgelegt ist, kann dieser Wert nicht pauschal berechnet werden!_ |
+| `W`     | Gesamtzahl der Wochen     | Bein 15 Tagen werden 2 Wochen zurückgegeben.                                                         |
+| ~~`m`~~ | ~~Rest der Monate~~       | _Da die Länge eines Montas nicht festgelegt ist, kann dieser Wert nicht pauschal berechnet werden!_ |
+| ~~`M`~~ | ~~Gesamtzahl der Monate~~ | _Da die Länge eines Montas nicht festgelegt ist, kann dieser Wert nicht pauschal berechnet werden!_ |
+| ~~`Y`~~ | ~~Gesamtzahl der Jahre~~  | _Da die Länge eines Jahres nicht festgelegt ist, kann dieser Wert nicht pauschal berechnet werden!_ |
+
 ### Rechnen
 
 Um mit den Zeiten zu rechnen, stehen die Grundrechenarten zur Verfügung.
@@ -139,50 +155,6 @@ class myClass
         // Division
         $value = $valueOne->divide($operand);
         echo $value; // gibt "06:17:28" aus
-    }
-}
-```
-
-### Arbeiten mit Besteandteilen der Dauer
-
-Die einzelnen Bestandteile (Stunden, Mininuten und Sekunden) können als Wertobjekt bezogen werden, um mit ihren Zahlen
-zu arbeiten.
-
-```php
-<?php
-
-use Esit\Valueobjects\Classes\Duration\Services\Factories\DurationFactory;
-
-class myClass
-{
-    private DurationFactory $factory;
-
-    public function __constructor(DurationFactory $factory)
-    {
-        $this->factory = $factory;
-    }
-
-    public function myTestFunction(): void
-    {
-        $time   = 45296; // 12 Stunden, 34 Minuten, 56 Sekunden
-        $value  = $this->factory->createDurationFromInt($time);
-
-        // Stunden
-        $hours  = $value->getHoursValue();
-        echo $hours->count();   // gibt 12 aus
-        echo $hours->value();   // gibt 43200 aus
-        echo $hours->parse();   // gibt "12" aus
-
-        // Minuten
-        $minutes = $value->getMinutesValue();
-        echo $minutes->count(); // gibt 34 aus
-        echo $minutes->value(); // gibt 2040 aus
-        echo $minutes->parse(); // gibt "34" aus
-
-        // Sekunden
-        $seconds = $value->getSecondsValue();
-        echo $seconds->count(); // gibt 56 aus
-        echo $seconds->parse(); // gibt "56" aus
     }
 }
 ```

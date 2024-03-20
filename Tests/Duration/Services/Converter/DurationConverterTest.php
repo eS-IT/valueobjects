@@ -30,12 +30,6 @@ class DurationConverterTest extends EsitTestCase
 
 
     /**
-     * @var int
-     */
-    private int $time;
-
-
-    /**
      * @var DurationConverter
      */
     private DurationConverter $converter;
@@ -47,7 +41,6 @@ class DurationConverterTest extends EsitTestCase
                                    ->disableOriginalConstructor()
                                    ->getMock();
 
-        $this->time         = \time();
         $this->converter    = new DurationConverter($this->calculator);
     }
 
@@ -58,10 +51,8 @@ class DurationConverterTest extends EsitTestCase
         $timeOfMinutes              = 120;
         $timeOfHour                 = 3600;
         $restOfHour                 = $time - $timeOfHour;
-        $secOfUnit                  = $time - $rest;
         $conversionFactor           = ConversionFactors::SECONDS_PER_MINUTE;
         $conversionFactorParentUnit = ConversionFactors::SECONDS_PER_HOUR;
-        $secondsOfParentUnit        = (int) ($secOfUnit / $conversionFactor);
         $expected                   = 2;
 
         $this->addConsecutiveReturn(

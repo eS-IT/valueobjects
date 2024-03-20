@@ -47,10 +47,13 @@ class DurationParserHelper
             DurationFormatParts::D => $this->helper->getTotalDays($time),
             DurationFormatParts::d => $this->helper->getDaysCount($time),
             DurationFormatParts::W => $this->helper->getTotalWeeks($time),
+            /*
             DurationFormatParts::w => $this->helper->getWeeksCount($time),
             DurationFormatParts::M => $this->helper->getTotalMonths($time),
             DurationFormatParts::m => $this->helper->getMonthsCount($time),
-            DurationFormatParts::Y => $this->helper->getTotalYears($time)
+            DurationFormatParts::Y => $this->helper->getTotalYears($time),
+            */
+            default => 0
         };
     }
 }

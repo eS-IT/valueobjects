@@ -18,15 +18,15 @@ namespace Esit\Valueobjects\Classes\Duration\Library;
 class ConversionFactors
 {
 
-    public const SECONDS_PER_MINUTE = 60;
+    public const SECONDS_PER_MINUTE = 60;       // 60 Sekunden
 
-    public const SECONDS_PER_HOUR = 3600;
+    public const SECONDS_PER_HOUR = 3600;       // 60 x 60 Sekunden
 
-    public const SECONDS_PER_DAY = 86400;
+    public const SECONDS_PER_DAY = 86400;       // 24 * 60 Minuten
 
-    public const SECONDS_PER_WEEK = 604800;
+    public const SECONDS_PER_WEEK = 604800;     // 7 x 24 Stunden
 
-    public const SECONDS_PER_MONTH = 2592000;
+    public const SECONDS_PER_MONTH = 2419200;   // 4 x 7 Tage (28 Tage)
 
-    public const SECONDS_PER_YEAR = 31536000;
+    public const SECONDS_PER_YEAR = 29030400;   // 12 x 4 Wochen (12 x 28 = 336 Tage)
 }
