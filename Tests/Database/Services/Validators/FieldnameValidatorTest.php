@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace Database\Services\Validators;
 
-use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Doctrine\DBAL\Schema\Column;
+use Esit\Valueobjects\Classes\Database\Services\Factories\SchemaManagerFactory;
 use Esit\Valueobjects\Classes\Database\Services\Validators\FieldnameValidator;
 use Esit\Valueobjects\Classes\Database\Valueobjects\TablenameValue;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -25,9 +25,9 @@ class FieldnameValidatorTest extends TestCase
 
 
     /**
-     * @var (Connection&MockObject)|MockObject
+     * @var (SchemaManagerFactory&MockObject)|MockObject
      */
-    private $connection;
+    private $schemeManagerFactory;
 
 
     /**
@@ -53,29 +53,29 @@ class FieldnameValidatorTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->connection       = $this->getMockBuilder(Connection::class)
-                                       ->disableOriginalConstructor()
-                                       ->getMock();
+        $this->schemeManagerFactory = $this->getMockBuilder(SchemaManagerFactory::class)
+                                           ->disableOriginalConstructor()
+                                           ->getMock();
 
-        $this->schemeManager    = $this->getMockBuilder(AbstractSchemaManager::class)
-                                       ->disableOriginalConstructor()
-                                       ->getMock();
+        $this->schemeManager        = $this->getMockBuilder(AbstractSchemaManager::class)
+                                           ->disableOriginalConstructor()
+                                           ->getMock();
 
-        $this->tablename        = $this->getMockBuilder(TablenameValue::class)
-                                       ->disableOriginalConstructor()
-                                       ->getMock();
+        $this->tablename            = $this->getMockBuilder(TablenameValue::class)
+                                           ->disableOriginalConstructor()
+                                           ->getMock();
 
-        $this->column           = $this->getMockBuilder(Column::class)
-                                       ->disableOriginalConstructor()
-                                       ->getMock();
+        $this->column               = $this->getMockBuilder(Column::class)
+                                           ->disableOriginalConstructor()
+                                           ->getMock();
 
-        $this->connection->method('createSchemaManager')
-                         ->willReturn($this->schemeManager);
+        $this->schemeManagerFactory->method('getSchemaManager')
+                                   ->willReturn($this->schemeManager);
 
         $this->tablename->method('value')
                         ->willReturn('tl_table');
 
-        $this->validator        = new FieldnameValidator($this->connection);
+        $this->validator        = new FieldnameValidator($this->schemeManagerFactory);
     }
 
 

@@ -15,16 +15,16 @@ declare(strict_types=1);
 
 namespace Esit\Valueobjects\Classes\Database\Services\Validators;
 
-use Doctrine\DBAL\Connection;
+use Esit\Valueobjects\Classes\Database\Services\Factories\SchemaManagerFactory;
 
 class DatabasenameValidator
 {
 
 
     /**
-     * @param Connection $connection
+     * @param SchemaManagerFactory $schemaManagerFactory
      */
-    public function __construct(private readonly Connection $connection)
+    public function __construct(private readonly SchemaManagerFactory $schemaManagerFactory)
     {
     }
 
@@ -40,7 +40,7 @@ class DatabasenameValidator
      */
     public function validate(string $databaseName): bool
     {
-        $databases = $this->connection->createSchemaManager()->listDatabases() ?: [];
+        $databases = $this->schemaManagerFactory->getSchemaManager()->listDatabases() ?: [];
 
         return \in_array($databaseName, $databases, true);
     }

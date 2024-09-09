@@ -15,7 +15,7 @@ declare(strict_types=1);
 
 namespace Esit\Valueobjects\Classes\Database\Services\Validators;
 
-use Doctrine\DBAL\Connection;
+use Esit\Valueobjects\Classes\Database\Services\Factories\SchemaManagerFactory;
 use Esit\Valueobjects\Classes\Database\Valueobjects\TablenameValue;
 
 class FieldnameValidator
@@ -23,9 +23,9 @@ class FieldnameValidator
 
 
     /**
-     * @param Connection $connection
+     * @param SchemaManagerFactory $schemaManagerFactory
      */
-    public function __construct(private readonly Connection $connection)
+    public function __construct(private readonly SchemaManagerFactory $schemaManagerFactory)
     {
     }
 
@@ -42,7 +42,7 @@ class FieldnameValidator
      */
     public function validate(string $fieldname, TablenameValue $tablename): bool
     {
-        $fieldnames = $this->connection->createSchemaManager()->listTableColumns($tablename->value());
+        $fieldnames = $this->schemaManagerFactory->getSchemaManager()->listTableColumns($tablename->value());
 
         foreach ($fieldnames as $fieldnameFromDb) {
             if ($fieldnameFromDb->getName() === $fieldname) {

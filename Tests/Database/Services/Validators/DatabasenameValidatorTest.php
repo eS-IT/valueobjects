@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Esit\Valueobjects\Tests\Database\Services\Validators;
 
-use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
+use Esit\Valueobjects\Classes\Database\Services\Factories\SchemaManagerFactory;
 use Esit\Valueobjects\Classes\Database\Services\Validators\DatabasenameValidator;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -23,9 +23,9 @@ class DatabasenameValidatorTest extends TestCase
 
 
     /**
-     * @var (Connection&MockObject)|MockObject
+     * @var (SchemaManagerFactory&MockObject)|MockObject
      */
-    private $connection;
+    private $schemaManagerFactroy;
 
 
     /**
@@ -42,18 +42,18 @@ class DatabasenameValidatorTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->connection       = $this->getMockBuilder(Connection::class)
-                                       ->disableOriginalConstructor()
-                                       ->getMock();
+        $this->schemaManagerFactroy = $this->getMockBuilder(SchemaManagerFactory::class)
+                                           ->disableOriginalConstructor()
+                                           ->getMock();
 
-        $this->schemeManager    = $this->getMockBuilder(AbstractSchemaManager::class)
-                                       ->disableOriginalConstructor()
-                                       ->getMock();
+        $this->schemeManager        = $this->getMockBuilder(AbstractSchemaManager::class)
+                                           ->disableOriginalConstructor()
+                                           ->getMock();
 
-        $this->connection->method('createSchemaManager')
-                         ->willReturn($this->schemeManager);
+        $this->schemaManagerFactroy->method('getSchemaManager')
+                                   ->willReturn($this->schemeManager);
 
-        $this->validator        = new DatabasenameValidator($this->connection);
+        $this->validator            = new DatabasenameValidator($this->schemaManagerFactroy);
     }
 
 

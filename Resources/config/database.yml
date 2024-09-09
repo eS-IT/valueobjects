@@ -7,15 +7,11 @@ services:
     # Factories
     Esit\Valueobjects\Classes\Database\Services\Factories\DatabaseFactory: ~
 
+    Esit\Valueobjects\Classes\Database\Services\Factories\SchemaManagerFactory: ~
+
     # Validators
-    Esit\Valueobjects\Classes\Database\Services\Validators\DatabasenameValidator:
-        arguments:
-            - '@database_connection'
+    Esit\Valueobjects\Classes\Database\Services\Validators\DatabasenameValidator: ~
 
-    Esit\Valueobjects\Classes\Database\Services\Validators\FieldnameValidator:
-        arguments:
-            - '@database_connection'
+    Esit\Valueobjects\Classes\Database\Services\Validators\FieldnameValidator: ~
 
-    Esit\Valueobjects\Classes\Database\Services\Validators\TablenameValidator:
-        arguments:
-            - '@database_connection'
+    Esit\Valueobjects\Classes\Database\Services\Validators\TablenameValidator: ~
