@@ -28,7 +28,7 @@ __e@sy Solutions IT:__ Patrick Froch <info@easySolutionsIT.de>
 ## Voraussetzungen
 
 - php: ~8.1
-- contao/contao: ^4.9 || ^4.13 || ~5.0
+- contao/contao: ^4.13 || ~5.0
 
 
 ## Installation
