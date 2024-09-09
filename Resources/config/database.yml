@@ -1,0 +1,21 @@
+# Services
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    # Factories
+    Esit\Valueobjects\Classes\Database\Services\Factories\DatabaseFactory: ~
+
+    # Validators
+    Esit\Valueobjects\Classes\Database\Services\Validators\DatabasenameValidator:
+        arguments:
+            - '@database_connection'
+
+    Esit\Valueobjects\Classes\Database\Services\Validators\FieldnameValidator:
+        arguments:
+            - '@database_connection'
+
+    Esit\Valueobjects\Classes\Database\Services\Validators\TablenameValidator:
+        arguments:
+            - '@database_connection'

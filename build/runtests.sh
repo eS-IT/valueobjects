@@ -216,7 +216,7 @@ then
     # PHPUnit gobal mit composer installiert
     echo
     myecho "Führe UnitTests mit globalem PHPUnit durch"
-    XDEBUG_MODE=coverage ${PHP} ../../../vendor/bin/phpunit --configuration ${configFolder}/phpunit/phpunit.xml.dist #--testdox
+    XDEBUG_MODE=coverage ${PHP} ../../../vendor/bin/phpunit --configuration ${configFolder}/phpunit/phpunit.xml.dist --testdox
     tmperr=$?
 
     if [ ${tmperr} -ne 0 ]

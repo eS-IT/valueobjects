@@ -1,4 +1,6 @@
 parameters:
-	level: 9
-	paths:
-		- ../Classes
+    level: 9
+    paths:
+        - ../Classes
+    bootstrapFiles:
+        - ../../../../vendor/autoload.php
