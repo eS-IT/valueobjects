@@ -12,17 +12,16 @@ Für die Erstellung des Objekts ist eine Factory vorhanden. Diese kann per Depen
 Klasse übergeben werden. Dann kann ganz einfach aus einem String ein `DatabasenameValue`, ein `TabelnameValue`-
 oder ein `Fieldname`-Objekt erstellt werden.
 
-
 ```php
 <?php
 
-use Esit\Valueobjects\Classes\Database\Services\Factories\DatabaseFactory;
+use Esit\Valueobjects\Classes\Database\Services\Factories\DatabasenameFactory;
 
 class myClass
 {
     private UrlFactory $factory;
 
-    public function __constructor(DatabaseFactory $factory)
+    public function __constructor(DatabasenameFactory $factory)
     {
         $this->factroy = $factory;
     }
@@ -47,13 +46,13 @@ verwenden.
 ```php
 <?php
 
-use Esit\Valueobjects\Classes\Database\Services\Factories\DatabaseFactory;
+use Esit\Valueobjects\Classes\Database\Services\Factories\DatabasenameFactory;
 
 class myClass
 {
     private IbanFactory $factory;
 
-    public function __constructor(DatabaseFactory $factory)
+    public function __constructor(DatabasenameFactory $factory)
     {
         $this->factroy = $factory;
     }

@@ -12,31 +12,44 @@ declare(strict_types=1);
 
 namespace Esit\Valueobjects\Tests\Database\Services\Factories;
 
-use Esit\Valueobjects\Classes\Database\Services\Factories\DatabaseFactory;
+use Esit\Valueobjects\Classes\Database\Services\Factories\DatabasenameFactory;
 use Esit\Valueobjects\Classes\Database\Services\Validators\DatabasenameValidator;
 use Esit\Valueobjects\Classes\Database\Services\Validators\FieldnameValidator;
 use Esit\Valueobjects\Classes\Database\Services\Validators\TablenameValidator;
 use Esit\Valueobjects\Classes\Database\Valueobjects\TablenameValue;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class DatabaseFactoryTest extends TestCase
+class DatabasenameFactoryTest extends TestCase
 {
 
-
+    /**
+     * @var (DatabasenameValidator&MockObject)|MockObject
+     */
     private $databasenameValidator;
 
 
+    /**
+     * @var (FieldnameValidator&MockObject)|MockObject
+     */
     private $fieldnameValidator;
 
 
-
+    /**
+     * @var (TablenameValidator&MockObject)|MockObject
+     */
     private $tablenameValidator;
 
-
+    /**
+     * @var (TablenameValue&MockObject)|MockObject
+     */
     private $tablenameValue;
 
 
-    private DatabaseFactory $factory;
+    /**
+     * @var DatabasenameFactory
+     */
+    private DatabasenameFactory $factory;
 
 
     protected function setUp(): void
@@ -57,7 +70,7 @@ class DatabaseFactoryTest extends TestCase
                                            ->disableOriginalConstructor()
                                            ->getMock();
 
-        $this->factory              = new DatabaseFactory(
+        $this->factory              = new DatabasenameFactory(
             $this->databasenameValidator,
             $this->fieldnameValidator,
             $this->tablenameValidator);

@@ -5,7 +5,7 @@ services:
         autoconfigure: true
 
     # Factories
-    Esit\Valueobjects\Classes\Database\Services\Factories\DatabaseFactory:
+    Esit\Valueobjects\Classes\Database\Services\Factories\DatabasenameFactory:
         public: true
 
     Esit\Valueobjects\Classes\Database\Services\Factories\SchemaManagerFactory: ~

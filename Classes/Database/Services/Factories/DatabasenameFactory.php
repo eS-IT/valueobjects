@@ -22,7 +22,7 @@ use Esit\Valueobjects\Classes\Database\Valueobjects\DatabasenameValue;
 use Esit\Valueobjects\Classes\Database\Valueobjects\FieldnameValue;
 use Esit\Valueobjects\Classes\Database\Valueobjects\TablenameValue;
 
-class DatabaseFactory
+class DatabasenameFactory
 {
 
 
