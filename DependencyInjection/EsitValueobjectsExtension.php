@@ -31,7 +31,7 @@ final class EsitValueobjectsExtension extends Extension
     public function load(array $mergedConfig, ContainerBuilder $container): void
     {
         $path   = __DIR__ . '/../Resources/config';
-        $files  = ['duration', 'email', 'iban', 'ip', 'isbn', 'money', 'url'];
+        $files  = ['database', 'duration', 'email', 'iban', 'ip', 'isbn', 'money', 'url'];
         $loader = new YamlFileLoader($container, new FileLocator($path));
 
         foreach ($files as $file) {
