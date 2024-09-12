@@ -11,6 +11,3 @@
 autoload*
 vendor/
 **/**/*.example
-Classes/Contao/
-Classes/Contao/*
-Classes/Contao/**

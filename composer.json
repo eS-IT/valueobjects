@@ -27,5 +27,8 @@
         "psr-4": {
             "Esit\\Valueobjects\\": ""
         }
+    },
+    "extra": {
+        "contao-manager-plugin": "Esit\\Valueobjects\\Classes\\Contao\\Manager\\Plugin"
     }
 }
