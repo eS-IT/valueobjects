@@ -29,7 +29,10 @@ class TablenameValue implements \Stringable
 
 
     /**
-     * @param string $value
+     * @param string             $value
+     * @param TablenameValidator $validator
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     protected function __construct(string $value, TablenameValidator $validator)
     {
