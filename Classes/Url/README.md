@@ -15,12 +15,8 @@ use Esit\Valueobjects\Classes\Url\Valueobjects\UrlValue;
 use Esit\Valueobjects\Classes\Url\Services\Factories\UrlFactory;
 
 class myClass
-{
-    private UrlFactory $factory;
-
-    public function __constructor(UrlFactory $factory)
+{    public function __constructor(private readonly UrlFactory $factory)
     {
-        $this->factroy = $factory;
     }
 
     public function myTestFunction(): UrlValue
@@ -40,11 +36,8 @@ use Esit\Valueobjects\Classes\Url\Services\Factories\UrlFactory;
 
 class myClass
 {
-    private UrlFactory $factory;
-
-    public function __constructor(UrlFactory $factory)
+    public function __constructor(private readonly UrlFactory $factory)
     {
-        $this->factroy = $factory;
     }
 
     public function myTestFunction(): UrlValue
@@ -66,11 +59,8 @@ use Esit\Valueobjects\Classes\Url\Services\Factories\UrlFactory;
 
 class myClass
 {
-    private UrlFactory $factory;
-
-    public function __constructor(UrlFactory $factory)
+    public function __constructor(private readonly UrlFactory $factory)
     {
-        $this->factroy = $factory;
     }
 
     public function myTestFunction(): UrlValue
@@ -95,11 +85,8 @@ use Esit\Valueobjects\Classes\Url\Services\Factories\UrlFactory;
 
 class myClass
 {
-    private UrlFactory $factory;
-
-    public function __constructor(UrlFactory $factory)
+    public function __constructor(private readonly UrlFactory $factory)
     {
-        $this->factroy = $factory;
     }
 
     public function myTestFunction(): void

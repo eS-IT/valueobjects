@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 namespace Esit\Valueobjects\Classes\Database\Valueobjects;
 
+use Esit\Valueobjects\Classes\Database\Enums\FieldnamesInterface;
 use Esit\Valueobjects\Classes\Database\Exceptions\NotAValidFieldnameException;
 use Esit\Valueobjects\Classes\Database\Services\Validators\FieldnameValidator;
 
@@ -63,10 +64,32 @@ class FieldnameValue implements \Stringable
      * @return self
      *
      * @throws \Doctrine\DBAL\Exception
+     *
+     * @deprecated  use self::fromNameInterface() instead
      */
     public static function fromString(string $value, TablenameValue $tablename, FieldnameValidator $validator): self
     {
         return new self($value, $tablename, $validator);
+    }
+
+
+    /**
+     * Erzeugt aus einem FieldnameInterface ein FieldnameValue-Objekt.
+     *
+     * @param FieldnamesInterface $fieldname
+     * @param TablenameValue      $tablename
+     * @param FieldnameValidator  $validator
+     *
+     * @return self
+     *
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public static function fromInterface(
+        FieldnamesInterface $fieldname,
+        TablenameValue $tablename,
+        FieldnameValidator $validator
+    ): self {
+        return new self($fieldname->name, $tablename, $validator);
     }
 
 

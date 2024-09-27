@@ -16,11 +16,8 @@ use Esit\Valueobjects\Classes\Duration\Services\Factories\DurationFactory;
 
 class myClass
 {
-    private DurationFactory $factory;
-
-    public function __constructor(DurationFactory $factory)
+    public function __constructor(private readonly DurationFactory $factory)
     {
-        $this->factory = $factory;
     }
 
     public function myTestFunction(): DurationValue
@@ -45,11 +42,8 @@ use Esit\Valueobjects\Classes\Duration\Services\Factories\DurationFactory;
 
 class myClass
 {
-    private DurationFactory $factory;
-
-    public function __constructor(DurationFactory $factory)
+    public function __constructor(private readonly DurationFactory $factory)
     {
-        $this->factory = $factory;
     }
 
     public function myTestFunction(): void
@@ -78,9 +72,7 @@ use Esit\Valueobjects\Classes\Duration\Services\Factories\DurationFactory;
 
 class myClass
 {
-    private IpFactory $factory;
-
-    public function __constructor(IpFactory $factory)
+    public function __constructor(private readonly DurationFactory $factory)
     {
         $this->factory = $factory;
     }
@@ -126,11 +118,8 @@ use Esit\Valueobjects\Classes\Duration\Services\Factories\DurationFactory;
 
 class myClass
 {
-    private DurationFactory $factory;
-
-    public function __constructor(DurationFactory $factory)
+    public function __constructor(private readonly DurationFactory $factory)
     {
-        $this->factory = $factory;
     }
 
     public function myTestFunction(): void

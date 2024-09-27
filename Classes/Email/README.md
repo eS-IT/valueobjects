@@ -16,11 +16,8 @@ use Esit\Valueobjects\Classes\Email\Services\Factories\EmailFactory;
 
 class myClass
 {
-    private MoneyFactory $factory;
-
-    public function __constructor(EmailFactory $factory)
+    public function __constructor(private readonly EmailFactory $factory)
     {
-        $this->factroy = $factory;
     }
 
     public function myTestFunction(): EmailValue
@@ -42,11 +39,8 @@ use Esit\Valueobjects\Classes\Email\Services\Factories\EmailFactory;
 
 class myClass
 {
-    private EmailFactory $factory;
-
-    public function __constructor(EmailFactory $factory)
+    public function __constructor(private readonly EmailFactory $factory)
     {
-        $this->factroy = $factory;
     }
 
     public function myTestFunction(): void

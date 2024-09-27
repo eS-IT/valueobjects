@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 namespace Esit\Valueobjects\Classes\Database\Valueobjects;
 
+use Esit\Valueobjects\Classes\Database\Enums\TablenamesInterface;
 use Esit\Valueobjects\Classes\Database\Exceptions\NotAValidTablenameException;
 use Esit\Valueobjects\Classes\Database\Services\Validators\TablenameValidator;
 
@@ -62,10 +63,28 @@ class TablenameValue implements \Stringable
      * @return self
      *
      * @throws \Doctrine\DBAL\Exception
+     *
+     * @deprecated  use self::fromNameInterface() instead
      */
     public static function fromString(string $value, TablenameValidator $validator): self
     {
         return new self($value, $validator);
+    }
+
+
+    /**
+     * Erzeugt aus einem DatabasenameInterface ein DatabasenameValue-Objekt.
+     *
+     * @param TablenamesInterface $fieldname
+     * @param TablenameValidator  $validator
+     *
+     * @return self
+     *
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public static function fromInterface(TablenamesInterface $fieldname, TablenameValidator $validator): self
+    {
+        return new self($fieldname->name, $validator);
     }
 
 

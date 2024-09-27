@@ -11,16 +11,13 @@ Klasse übergeben werden. Dann kann ganz einfach aus einem String ein `IBAN`-Obj
 
 ```php
 <?php
-use Esit\Valueobjects\Classes\Iban\Valueobjects\IpValue;
+use Esit\Valueobjects\Classes\Iban\Valueobjects\IbanValue;
 use Esit\Valueobjects\Classes\Iban\Services\Factories\IbanFactory;
 
 class myClass
 {
-    private IbanFactory $factory;
-
-    public function __constructor(IbanFactory $factory)
+    public function __constructor(private readonly IbanFactory $factory)
     {
-        $this->factroy = $factory;
     }
 
     public function myTestFunction(): IbanValue
@@ -47,11 +44,8 @@ use Esit\Valueobjects\Classes\Iban\Services\Factories\IbanFactory;
 
 class myClass
 {
-    private IbanFactory $factory;
-
-    public function __constructor(IbanFactory $factory)
+    public function __constructor(private readonly IbanFactory $factory)
     {
-        $this->factroy = $factory;
     }
 
     public function myTestFunction(): void

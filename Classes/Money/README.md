@@ -17,11 +17,8 @@ use Esit\Valueobjects\Classes\Money\Services\Factories\MoneyFactory;
 
 class myClass
 {
-    private MoneyFactory $factory;
-
-    public function __constructor(MoneyFactory $factory)
+    public function __constructor(private readonly MoneyFactory $factory)
     {
-        $this->factroy = $factory;
     }
 
     public function myTestFunction(): MoneyValue
@@ -43,11 +40,8 @@ use Esit\Valueobjects\Classes\Money\Services\Factories\MoneyFactory;
 
 class myClass
 {
-    private MoneyFactory $factory;
-
-    public function __constructor(MoneyFactory $factory)
+    public function __constructor(private readonly MoneyFactory $factory)
     {
-        $this->factroy = $factory;
     }
 
     public function myTestFunction(): MoneyValue
@@ -73,11 +67,8 @@ use Esit\Valueobjects\Classes\Money\Services\Factories\MoneyFactory;
 
 class myClass
 {
-    private MoneyFactory $factory;
-
-    public function __constructor(MoneyFactory $factory)
+    public function __constructor(private readonly MoneyFactory $factory)
     {
-        $this->factroy = $factory;
     }
 
     public function myTestFunction(): void
@@ -98,11 +89,8 @@ use Esit\Valueobjects\Classes\Money\Services\Factories\MoneyFactory;
 
 class myClass
 {
-    private MoneyFactory $factory;
-
-    public function __constructor(MoneyFactory $factory)
+    public function __constructor(private readonly MoneyFactory $factory)
     {
-        $this->factroy = $factory;
     }
 
     public function myTestFunction(): void
@@ -122,11 +110,8 @@ use Esit\Valueobjects\Classes\Money\Services\Factories\MoneyFactory;
 
 class myClass
 {
-    private MoneyFactory $factory;
-
-    public function __constructor(MoneyFactory $factory)
+    public function __constructor(private readonly MoneyFactory $factory)
     {
-        $this->factroy = $factory;
     }
 
     public function myTestFunction(): void
@@ -156,11 +141,8 @@ use Esit\Valueobjects\Classes\Money\Services\Factories\MoneyFactory;
 
 class myClass
 {
-    private MoneyFactory $factory;
-
-    public function __constructor(MoneyFactory $factory)
+    public function __constructor(private readonly MoneyFactory $factory)
     {
-        $this->factroy = $factory;
     }
 
     public function myTestFunction(): void

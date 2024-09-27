@@ -117,8 +117,6 @@ class DatabasenameFactoryTest extends TestCase
      */
     public function testCreateFieldnameFromStringuseTablenaemValueIfTableNameIsATablenameValue(): void
     {
-        $tablename = 'tl_example';
-
         $this->tablenameValidator->expects(self::never())
                                  ->method('validate');
 

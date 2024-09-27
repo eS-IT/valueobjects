@@ -15,12 +15,9 @@ use Esit\Valueobjects\Classes\Isbn\Services\Factories\IsbnFactory;
 
 class myClass
 {
-    private IsbnFactory $factory;
-
-    public function __constructor(IsbnFactory $factory)
+    public function __constructor(private readonly IsbnFactory $factory)
     {
-        $this->factroy = $factory;
-    }
+     }
 
     public function myTestFunction(): void
     {
@@ -48,11 +45,8 @@ use Esit\Valueobjects\Classes\Isbn\Services\Factories\IsbnFactory;
 
 class myClass
 {
-    private IsbnFactory $factory;
-
-    public function __constructor(IsbnFactory $factory)
+    public function __constructor(private readonly IsbnFactory $factory)
     {
-        $this->factroy = $factory;
     }
 
     public function myTestFunction(): void

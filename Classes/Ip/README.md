@@ -16,11 +16,8 @@ use Esit\Valueobjects\Classes\Ip\Services\Factories\IpFactory;
 
 class myClass
 {
-    private IpFactory $factory;
-
-    public function __constructor(IpFactory $factory)
+    public function __constructor(private readonly IpFactory $factory)
     {
-        $this->factroy = $factory;
     }
 
     public function myTestFunction(): IpValue
@@ -43,11 +40,8 @@ use Esit\Valueobjects\Classes\Ip\Services\Factories\IpFactory;
 
 class myClass
 {
-    private IpFactory $factory;
-
-    public function __constructor(IpFactory $factory)
+    public function __constructor(private readonly IpFactory $factory)
     {
-        $this->factroy = $factory;
     }
 
     public function myTestFunction(): void

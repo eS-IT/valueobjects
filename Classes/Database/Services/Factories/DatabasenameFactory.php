@@ -15,6 +15,9 @@ declare(strict_types=1);
 
 namespace Esit\Valueobjects\Classes\Database\Services\Factories;
 
+use Esit\Valueobjects\Classes\Database\Enums\DatabasenamesInterface;
+use Esit\Valueobjects\Classes\Database\Enums\FieldnamesInterface;
+use Esit\Valueobjects\Classes\Database\Enums\TablenamesInterface;
 use Esit\Valueobjects\Classes\Database\Services\Validators\DatabasenameValidator;
 use Esit\Valueobjects\Classes\Database\Services\Validators\FieldnameValidator;
 use Esit\Valueobjects\Classes\Database\Services\Validators\TablenameValidator;
@@ -40,13 +43,15 @@ class DatabasenameFactory
 
 
     /**
-     * Erstellt ein DatabasenameValue.
+     * Erstellt ein DatabasenameValue aus einem String.
      *
      * @param string $databasename
      *
      * @return DatabasenameValue
      *
      * @throws \Doctrine\DBAL\Exception
+     *
+     * @deprecated  use $this->createDatabasenameFromNameInterface() instead
      */
     public function createDatabasenameFromString(string $databasename): DatabasenameValue
     {
@@ -55,7 +60,22 @@ class DatabasenameFactory
 
 
     /**
-     * Erstellt ein FieldnameValue.
+     * Erstellt ein DatabasenameValue aus einem NameInterface.
+     *
+     * @param DatabasenamesInterface $databasename
+     *
+     * @return DatabasenameValue
+     *
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function createDatabasenameFromInterface(DatabasenamesInterface $databasename): DatabasenameValue
+    {
+        return DatabasenameValue::fromInterface($databasename, $this->databasenameValidator);
+    }
+
+
+    /**
+     * Erstellt ein FieldnameValue aus einem String.
      *
      * @param string                $fieldname
      * @param string|TablenameValue $tablename
@@ -63,6 +83,8 @@ class DatabasenameFactory
      * @return FieldnameValue
      *
      * @throws \Doctrine\DBAL\Exception
+     *
+     * @deprecated  use $this->createFieldnameFromNameInterface() instead
      */
     public function createFieldnameFromString(string $fieldname, string|TablenameValue $tablename): FieldnameValue
     {
@@ -75,16 +97,55 @@ class DatabasenameFactory
 
 
     /**
-     * Erzeugt ein TablenameValue.
+     * Erstellt ein FieldnameValue aus einem FieldnameInterface.
+     *
+     * @param FieldnamesInterface                $fieldname
+     * @param TablenamesInterface|TablenameValue $tablename
+     *
+     * @return FieldnameValue
+     *
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function createFieldnameFromInterface(
+        FieldnamesInterface $fieldname,
+        TablenamesInterface|TablenameValue $tablename
+    ): FieldnameValue {
+        if ($tablename instanceof TablenamesInterface) {
+            $tablename = $this->createTablenameFromInterface($tablename);
+        }
+
+        return FieldnameValue::fromInterface($fieldname, $tablename, $this->fieldnameValidator);
+    }
+
+
+    /**
+     * Erzeugt ein TablenameValue aus einem String.
      *
      * @param string $tablename
      *
      * @return TablenameValue
      *
      * @throws \Doctrine\DBAL\Exception
+     *
+     * @deprecated  use $this->createTablenameFromNameInterface() instead
      */
     public function createTablenameFromString(string $tablename): TablenameValue
     {
         return TablenameValue::fromString($tablename, $this->tablenameValidator);
+    }
+
+
+    /**
+     * Erzeugt ein TablenameValue aus einem TablenamesInterface.
+     *
+     * @param TablenamesInterface $tablename
+     *
+     * @return TablenameValue
+     *
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function createTablenameFromInterface(TablenamesInterface $tablename): TablenameValue
+    {
+        return TablenameValue::fromInterface($tablename, $this->tablenameValidator);
     }
 }
