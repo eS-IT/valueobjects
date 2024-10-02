@@ -12,6 +12,9 @@ declare(strict_types=1);
 
 namespace Esit\Valueobjects\Tests\Database\Services\Factories;
 
+use Esit\Valueobjects\Classes\Database\Enums\DatabasenamesInterface;
+use Esit\Valueobjects\Classes\Database\Enums\FieldnamesInterface;
+use Esit\Valueobjects\Classes\Database\Enums\TablenamesInterface;
 use Esit\Valueobjects\Classes\Database\Services\Factories\DatabasenameFactory;
 use Esit\Valueobjects\Classes\Database\Services\Validators\DatabasenameValidator;
 use Esit\Valueobjects\Classes\Database\Services\Validators\FieldnameValidator;
@@ -19,6 +22,10 @@ use Esit\Valueobjects\Classes\Database\Services\Validators\TablenameValidator;
 use Esit\Valueobjects\Classes\Database\Valueobjects\TablenameValue;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+
+enum TestDatabase implements DatabasenamesInterface { case test; }
+enum TestTable implements TablenamesInterface { case test; }
+enum TestField implements FieldnamesInterface { case test;}
 
 class DatabasenameFactoryTest extends TestCase
 {
@@ -95,7 +102,21 @@ class DatabasenameFactoryTest extends TestCase
      * @return void
      * @throws \Doctrine\DBAL\Exception
      */
-    public function testCreateFieldnameFromStringCreateTablenaemValueIfTableNameIsAString(): void
+    public function testCreateDatabasenameFromInterface(): void
+    {
+        $this->databasenameValidator->expects(self::once())
+                                    ->method('validate')
+                                    ->willReturn(true);
+
+        $this->assertNotNull($this->factory->createDatabasenameFromInterface(TestDatabase::test));
+    }
+
+
+    /**
+     * @return void
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function testCreateFieldnameFromStringWithString(): void
     {
         $tablename = 'tl_example';
 
@@ -115,7 +136,7 @@ class DatabasenameFactoryTest extends TestCase
      * @return void
      * @throws \Doctrine\DBAL\Exception
      */
-    public function testCreateFieldnameFromStringuseTablenaemValueIfTableNameIsATablenameValue(): void
+    public function testCreateFieldnameFromStringWithTablenaemValue(): void
     {
         $this->tablenameValidator->expects(self::never())
                                  ->method('validate');
@@ -132,6 +153,41 @@ class DatabasenameFactoryTest extends TestCase
      * @return void
      * @throws \Doctrine\DBAL\Exception
      */
+    public function testCreateFieldnameFromInterfaceWithTablenameInterface(): void
+    {
+        $this->tablenameValidator->expects(self::once())
+                                 ->method('validate')
+                                 ->willReturn(true);
+
+        $this->fieldnameValidator->expects(self::once())
+                                 ->method('validate')
+                                 ->willReturn(true);
+
+        $this->assertNotNull($this->factory->createFieldnameFromInterface(TestField::test, TestTable::test));
+    }
+
+
+    /**
+     * @return void
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function testCreateFieldnameFromInterfaceWithTablenameValue(): void
+    {
+        $this->tablenameValidator->expects(self::never())
+                                 ->method('validate');
+
+        $this->fieldnameValidator->expects(self::once())
+                                 ->method('validate')
+                                 ->willReturn(true);
+
+        $this->assertNotNull($this->factory->createFieldnameFromInterface(TestField::test, $this->tablenameValue));
+    }
+
+
+    /**
+     * @return void
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testCreateTablenameFromString(): void
     {
         $this->tablenameValidator->expects(self::once())
@@ -139,5 +195,19 @@ class DatabasenameFactoryTest extends TestCase
                                  ->willReturn(true);
 
         $this->assertNotNull($this->factory->createTablenameFromString('tl_example'));
+    }
+
+
+    /**
+     * @return void
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function testCreateTablenameFromInterface(): void
+    {
+        $this->tablenameValidator->expects(self::once())
+                                 ->method('validate')
+                                 ->willReturn(true);
+
+        $this->assertNotNull($this->factory->createTablenameFromInterface(TestTable::test));
     }
 }

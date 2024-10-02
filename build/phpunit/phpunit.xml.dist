@@ -15,6 +15,10 @@
     <include>
       <directory suffix=".php">../../Classes/</directory>
     </include>
+      <exclude>
+          <directory suffix=".php">../../Classes/Contao/Manager/</directory>
+          <file>../../Classes/Database/Services/Factories/SchemaManagerFactory.php</file>
+      </exclude>
   </coverage>
   <!-- Tests -->
   <testsuites>
