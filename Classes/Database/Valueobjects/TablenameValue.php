@@ -63,8 +63,6 @@ class TablenameValue implements \Stringable
      * @return self
      *
      * @throws \Doctrine\DBAL\Exception
-     *
-     * @deprecated  use self::fromNameInterface() instead
      */
     public static function fromString(string $value, TablenameValidator $validator): self
     {

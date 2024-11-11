@@ -188,6 +188,45 @@ class DatabasenameFactoryTest extends TestCase
      * @return void
      * @throws \Doctrine\DBAL\Exception
      */
+    public function testCreateFieldnameFromStringOrInterfaceCreateFromInterface(): void
+    {
+        $this->tablenameValidator->expects(self::once())
+                                 ->method('validate')
+                                 ->willReturn(true);
+
+        $this->fieldnameValidator->expects(self::once())
+                                 ->method('validate')
+                                 ->willReturn(true);
+
+        $rtn = $this->factory->createFieldnameFromStringOrInterface(TestField::test, TestTable::test);
+
+        $this->assertNotNull($rtn);
+    }
+
+
+    /**
+     * @return void
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function testCreateFieldnameFromStringOrInterfaceCreateFromString(): void
+    {
+        $this->tablenameValidator->expects(self::never())
+                                 ->method('validate');
+
+        $this->fieldnameValidator->expects(self::once())
+                                 ->method('validate')
+                                 ->willReturn(true);
+
+        $rtn = $this->factory->createFieldnameFromStringOrInterface(TestField::test->name, $this->tablenameValue);
+
+        $this->assertNotNull($rtn);
+    }
+
+
+    /**
+     * @return void
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testCreateTablenameFromString(): void
     {
         $this->tablenameValidator->expects(self::once())
@@ -209,5 +248,33 @@ class DatabasenameFactoryTest extends TestCase
                                  ->willReturn(true);
 
         $this->assertNotNull($this->factory->createTablenameFromInterface(TestTable::test));
+    }
+
+
+    /**
+     * @return void
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function testCreateTablenameFromStringOrInterfaceCreateFromInterface(): void
+    {
+        $this->tablenameValidator->expects(self::once())
+                                 ->method('validate')
+                                 ->willReturn(true);
+
+        $this->assertNotNull($this->factory->createTablenameFromStringOrInterface(TestTable::test));
+    }
+
+
+    /**
+     * @return void
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function testCreateTablenameFromStringOrInterfaceCreateFromString(): void
+    {
+        $this->tablenameValidator->expects(self::once())
+                                 ->method('validate')
+                                 ->willReturn(true);
+
+        $this->assertNotNull($this->factory->createTablenameFromStringOrInterface(TestTable::test->name));
     }
 }
